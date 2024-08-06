@@ -1,0 +1,65 @@
+{
+    "username": "tehila",
+    "email": "tehila@gmail.com",
+    "password": "123",
+    "image":null,
+    "role":"admin"
+}
+{
+    "username": "yahav",
+    "email": "yahav@gmail.com",
+    "password": "123",
+    "image":null,
+    "role":"admin"
+}
+{
+    "username": "adi",
+    "email": "adi@gmail.com",
+    "password": "123",
+    "image":null,
+    "role":"admin"
+}
+{
+    "username": "yakov",
+    "email": "yakov@gmail.com",
+    "password": "123",
+    "image":null,
+    "role":"admin"
+}
+
+
+{
+  "title":"to buy",
+  "description":null,
+  "body": "eggs,milk",
+  "isComplete":false ,
+  "isPinned": true ,
+  "userId":"66b21e199e04a25c9d5bab39",
+  "category":"home",
+  "updated":,
+  "date":null
+}
+
+{
+  "title":"workout",
+  "description":null,
+  "body": "legs",
+  "isComplete":false ,
+  "isPinned": true ,
+  "userId":"66b21e199e04a25c9d5bab39",
+  "category":"sport",
+  "updated":,
+  "date":""
+}
+
+{
+  "title":"go to school",
+  "description":null,
+  "body": "8:00 math, 9:00 english",
+  "isComplete":false ,
+  "isPinned": false ,
+  "userId":"66b21e199e04a25c9d5bab39",
+  "category":"school",
+  "updated":,
+  "date":"20/8/24"
+}
