@@ -1,0 +1,38 @@
+.navbar {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 10px 20px; 
+    background: linear-gradient(90deg, #16DD89, #43ADAD);
+    color: white;
+    list-style-type: none; 
+    border: white solid 2px;
+    height: 80px;
+    border-radius:25px 15px 0 0 ;
+    text-align: center;
+  }
+  .hamburger{
+    font-size: 1.8rem;
+  }
+  .searchIcon{
+    font-size: 25px;
+    color:#43ADAD;
+  }
+  .searchBar{
+    background-color: rgba(53, 5, 5, 0);
+    color: black;
+    width:100px;
+  }
+  .searchBar:focus, .searchBar:focus{
+    outline: none;
+}
+
+  .search-container{
+    padding: 13px;
+    background-color: white;
+    box-shadow: inset 0px 0px 3px rgb(129, 129, 129);
+    border-radius: 20px 20px 20px 20px;
+    display: flex;
+    text-align: center;
+    height: 50px;
+  }
