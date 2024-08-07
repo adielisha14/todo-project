@@ -4,6 +4,8 @@
     "password": "123",
     "image":null,
     "role":"admin"
+  "userId":"66b21ddb9e04a25c9d5bab33"
+
 }
 {
     "username": "yahav",
@@ -11,15 +13,17 @@
     "password": "123",
     "image":null,
     "role":"admin"
+  "userId":"66b21e079e04a25c9d5bab35",
+
 }
-{
+{66b21e119e04a25c9d5bab37
     "username": "adi",
     "email": "adi@gmail.com",
     "password": "123",
     "image":null,
     "role":"admin"
 }
-{
+{66b21e199e04a25c9d5bab39
     "username": "yakov",
     "email": "yakov@gmail.com",
     "password": "123",
@@ -34,10 +38,10 @@
   "body": "eggs,milk",
   "isComplete":false ,
   "isPinned": true ,
-  "userId":"66b21e199e04a25c9d5bab39",
   "category":"home",
   "updated":,
   "date":null
+  "userId":"66b21ddb9e04a25c9d5bab33"
 }
 
 {
@@ -46,10 +50,8 @@
   "body": "legs",
   "isComplete":false ,
   "isPinned": true ,
-  "userId":"66b21e199e04a25c9d5bab39",
-  "category":"sport",
-  "updated":,
-  "date":""
+  "category":"sport"
+  "userId":"66b21e079e04a25c9d5bab35",
 }
 
 {
@@ -58,8 +60,7 @@
   "body": "8:00 math, 9:00 english",
   "isComplete":false ,
   "isPinned": false ,
-  "userId":"66b21e199e04a25c9d5bab39",
   "category":"school",
-  "updated":,
   "date":"20/8/24"
+  "userId":"66b21e119e04a25c9d5bab37",
 }

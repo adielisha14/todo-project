@@ -3,6 +3,19 @@ const {hashP}= require('../middleware/encrypt')
 
 
 const userController = {
+    
+    uppdatePassword: async(req,res)=>{
+        let pass=await hashP(req.body.password)
+        try{
+            const updatedPassword =
+            await User.findByIdAndUpdate(req.params.id, {password:pass},{ new:true})
+            res.status(200).json(updatedPassword)
+        }
+        catch(err){
+            console.error("There is an error:",err)
+            res.status(500).json({err: err.message})    
+        }
+    },
 
     createUser: async (req,res)=>{
         let pass=await hashP(req.body.password)
