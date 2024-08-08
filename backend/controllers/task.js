@@ -7,6 +7,8 @@ const taskController = {
     createTask: async (req,res)=>{
 
         try{
+            
+            console.log(req.body);
             const newTask = await Task.create({...req.body, userId:req.params.id})
             res.status(201).json(newTask)
         }catch(err){
@@ -17,6 +19,7 @@ const taskController = {
 
     editTask: async (req,res)=>{
         try{
+            
             const newTask = await Task.findByIdAndUpdate(req.params.id,{ ...req.body,updated:Date.now()},{new:true})
             res.status(201).json(newTask) 
 
@@ -62,6 +65,34 @@ const taskController = {
             console.error("There is an error:",err)
             res.status(500).json({err: err.message})
          } 
+    },
+    unPin: async (req,res)=>{
+        try{
+            let unPin=req.body.isPinned
+            
+            const newTask = await Task.findByIdAndUpdate(req.params.id,{isPinned:unPin},{new:true})
+            res.status(201).json(newTask) 
+
+
+        }catch(err){
+            console.error("There is an error:",err)
+            res.status(500).json({err: err.message})
+
+        }
+    },
+
+    complete: async (req,res)=>{
+        try{
+            let complete=req.body.isComplete
+            const newTask = await Task.findByIdAndUpdate(req.params.id,{isComplete:complete},{new:true})
+            res.status(201).json(newTask) 
+
+
+        }catch(err){
+            console.error("There is an error:",err)
+            res.status(500).json({err: err.message})
+
+        }
     }
 }
 module.exports=taskController

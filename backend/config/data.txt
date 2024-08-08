@@ -47,7 +47,7 @@
 {
   "title":"workout",
   "description":null,
-  "body": "legs",
+  "body": "test",
   "isComplete":false ,
   "isPinned": true ,
   "category":"sport"

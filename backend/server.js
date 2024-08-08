@@ -25,11 +25,9 @@ app.use(
 
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
-// app.use('/api/auth', authRoutes);
-// app.use('/api/tasks', taskRoutes);
-app.use('/user',userRouter)
-app.use('/auth',authRouter)
-app.use('/task',taskRouter)
+app.use('/api/user',userRouter)
+app.use('/api/auth',authRouter)
+app.use('/api/tasks',taskRouter)
 
 const PORT = process.env.PORT || 3040;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
