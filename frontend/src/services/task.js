@@ -3,7 +3,6 @@ import axios from '../utils/axios';
 const getTasks = async (id) => {
     try{
         const response = await axios.get(`/api/tasks/getall/${id}`);
-        console.log(response.data);
         
         return response.data;
 
@@ -27,21 +26,19 @@ const getTaskById = async (id) => {
     }
 };
 
-const createTask = async (id,task) => {
+const createTask = async (id,task) => {    
     try{
-        console.log(task);
         const response = await axios.post(`/api/tasks/${id}`,task);
         return response.data;
 
     }catch(err){
-        console.log(err);
-
-        
+        console.log(err);    
     }
 };
 
 const editTask = async (id, task) => {
     try{
+
         const response = await axios.put(`/api/tasks/${id}`, task);
         return response.data;
         
@@ -51,6 +48,7 @@ const editTask = async (id, task) => {
 };
 
 const deleteTask = async (id) => {
+    
     try{
         const response = await axios.delete(`/api/tasks/${id}`);
         return response.data;
@@ -78,4 +76,14 @@ const unPin= async(id,data)=>{
 
     }
 }
-export  { getTasks, getTaskById, createTask, editTask, deleteTask ,complete,unPin};
+
+const taskListByConditions= async(id,data)=>{
+    try {
+        const response=await axios.get(`/api/tasks/getBy/${id}`,data)
+        return response;
+
+    } catch (error) {
+        
+    }
+}
+export  { getTasks, getTaskById, createTask, editTask, deleteTask ,complete,unPin,taskListByConditions};

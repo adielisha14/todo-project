@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Switch } from "@/components/ui/switch"
 
-import { CalendarIcon } from "@radix-ui/react-icons"
+import { CalendarIcon,CheckIcon, ResetIcon,DrawingPinFilledIcon } from "@radix-ui/react-icons"
 import { format } from "date-fns"
  
 import { cn } from "@/lib/utils"
@@ -17,13 +17,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { useState } from "react"
-import {createTask} from '../services/task'
+
+import {editTask} from '../services/task'
 
 
 
-export default function AddTaskCard({cancel}) {
-  const [date, setDate] = useState()
-  const [formData,setFormData]=useState({})
+export default function EditCard({cancel,task}) {
+  const [date, setDate] = useState(task.date)
+  const [formData,setFormData]=useState(task)
 
   function hendelFormData(e) {
     
@@ -34,31 +35,16 @@ export default function AddTaskCard({cancel}) {
       let val=e.target.dataset.state==="unchecked"?true:false
       setFormData({...formData,isPinned: val})
     }
-    console.log(formData);
   }
 
-  let userId="66b21e119e04a25c9d5bab37"
-
-  //  async function submit(e) {
-  //   // e.preventdefault()
-    
-  //   try{
-  //      await createTask(userId,{...formData,date: date})
-  //     //  cancel(false)
-    
-  //   }catch(err){
-  //     return err
-
-  //   }
-  // }
-  async function submit(e) {
+   async function commitEdit(e) {
     e.preventDefault() 
     try{
       if(date!=undefined){
         
       }
-      await createTask(userId,{...formData,date: date})
-      cancel(false)
+      await editTask(task._id,{...formData,date: date})
+      location.reload()
 
     
     }catch(err){
@@ -70,18 +56,18 @@ export default function AddTaskCard({cancel}) {
   
 
   return (
-    <div  className='w-screen static flex items-center justify-center'>
+    <div  className='w-[350px] static flex items-center justify-center'>
     <Card className="w-[350px] absolute shadow-2xl z-50  top-24">
       <CardHeader>
         <CardTitle>Create Todo</CardTitle>
       </CardHeader>
-        {/* <form> */}
+        <form>
       <CardContent>
           <div className="grid w-full items-center gap-4">
            
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Title</Label>
-              <Input required onChange={(e)=>{hendelFormData(e)}} id="title" placeholder="title of your todo" />
+              <Input  onChange={(e)=>{hendelFormData(e)}} id="title" placeholder={task.title} />
               
             </div>
 
@@ -89,7 +75,7 @@ export default function AddTaskCard({cancel}) {
             <div className="flex flex-col space-y-1.5">
               <div className="flex flex-col space-y-1.5">
               <Label htmlFor="description">Description</Label>
-              <Input  onChange={(e)=>{hendelFormData(e)}} id="description" placeholder="description of your todo" />
+              <Input  onChange={(e)=>{hendelFormData(e)}} id="description" placeholder={task.description} />
             </div>
             </div>
 
@@ -98,14 +84,13 @@ export default function AddTaskCard({cancel}) {
             <div className="flex flex-col space-y-1.5">
               <div className="flex flex-col space-y-1.5">
               <Label htmlFor="category">Category</Label>
-              <Input required onChange={(e)=>{hendelFormData(e)}} id="category" placeholder="category of your todo" />
+              <Input onChange={(e)=>{hendelFormData(e)}} id="category" placeholder={task.category} />
             </div>
             </div>
                         
             <div className="flex flex-col space-y-1.5">
               <div className="flex flex-col space-y-1.5">
               <Label htmlFor="date">To be done by</Label>
-              {/* <Input  onChange={(e)=>{hendelFormData(e)}} id="date" placeholder="Pick a date" /> */}
             </div>
 
             <Popover >
@@ -136,37 +121,30 @@ export default function AddTaskCard({cancel}) {
             <div className="flex flex-col space-y-1.5">
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="body">Body</Label>
-                <Textarea required id='body' onChange={(e)=>{hendelFormData(e)}} placeholder="Type your todo here." />
+                <Textarea id='body' onChange={(e)=>{hendelFormData(e)}} placeholder={task.body} />
              </div>
             </div>
 
 
             <div className="flex items-center space-x-2">
               <Switch id="isPinned" onClick={(e)=>{hendelFormData(e)}}/>
+              <DrawingPinFilledIcon/>
               <Label htmlFor="isPinned">Pin to the top</Label>
             </div>
                         
 
           </div>
+          <CardFooter className="flex justify-between">
+            <Button variant="outline" onClick={()=>{cancel(false)}}> Cancel<ResetIcon className="ml-2"/> </Button>
+            <Button type="submit" onClick={(e)=>{commitEdit(e)}}>add to list <CheckIcon  className="ml-2"/></Button>
+         </CardFooter>
       </CardContent>
-      <CardFooter className="flex justify-between">
-        <Button type='submit'  onClick={(e)=>{submit(e)}}>add to list</Button>
-        <Button variant="outline" onClick={()=>{cancel(false)}}>Cancel</Button>
-      </CardFooter>
-        {/* </form> */}
+        </form>
+
     </Card>
     </div>
   )
 }
 
-/**  title: { type: String, required: true },
-  description: { type: String },
-  body: { type: String, required: true },
-  isComplete: { type: Boolean, default: false },
-  isPinned: { type: Boolean, default: false },
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  category:{ type: String, default: 'general' ,required: true },
-  updated: { type: Date, default: Date.now(), required: true },
-  date:{ type: Date, required: false } */
 
     
