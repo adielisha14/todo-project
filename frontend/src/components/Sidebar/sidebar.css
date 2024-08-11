@@ -43,7 +43,7 @@
 }
 .addTodo{
     color:white;
-    font-size: 1.3em;
+    font-size: 1em;
     padding: 15px;
     display: flex;
     justify-content: center;
@@ -65,5 +65,5 @@
     color: #494949; 
   }
   .cateLabel{
-    color: #16DD89;
+    color: #43ADAD;
   }

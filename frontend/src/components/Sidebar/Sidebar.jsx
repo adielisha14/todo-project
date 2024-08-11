@@ -9,7 +9,7 @@ function Sidebar() {
         <li>
             <div className='addTodo'>
                 Add a Todo
-                <i class="fa-solid fa-circle-plus addIcon"></i>
+                <i className="fa-solid fa-circle-plus addIcon"></i>
             </div>
         </li>
         <li>
@@ -24,7 +24,7 @@ function Sidebar() {
 
         <li><div>
 
-        <label for="categories" className=" block text-2xl font-medium text-43ADAD-800 mb-2 cateLabel" >Categories:</label>
+        <label htmlFor="categories" className=" block text-2xl font-medium text-43ADAD-800 mb-2 cateLabel" >Categories:</label>
     <select id="categories" name="categories" className="mt-1 block w-full py-2 px-3 border bg-white rounded-md shadow-sm focus:outline-none  sm:text-sm ">
       <option value="work" >Work</option>
       <option value="sport" >Sport</option>
