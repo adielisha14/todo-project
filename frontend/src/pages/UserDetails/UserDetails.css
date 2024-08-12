@@ -1,0 +1,57 @@
+.userConteiner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    height:100%;
+    width:100%;
+    background-image:linear-gradient(rgb(8, 237, 145), rgb(6, 102, 54));
+    margin-left: 40%;
+    margin-top: 60px;
+    margin-bottom:40px ;
+    padding: 60px 150px 60px 150px;
+}
+
+.userConteiner h2{
+    display:flex ;
+    justify-content: center; 
+    font-size: 50px;
+    font-weight: 550;
+    margin-bottom: 20px;
+}
+
+.userList{
+    border-radius:20px ;
+    background-color: white;
+    padding:20px 30px 20px 25px ;
+    margin-bottom: 20px;
+    margin-top: 25px;
+    font-size: 25px;
+    font-weight: 500;
+    color: rgb(8, 237, 145);
+    box-shadow: 5px 3px 3px 3px rgba(0, 0, 0, 0.195);
+}
+
+.justGap{
+    display: flex;
+    align-items: center;
+    gap: 20px; 
+}
+
+.userList li{
+    font-size: 18px;
+    color: black;
+    font-weight: 350;
+
+}
+
+.userImage{
+    height:120px; /* Set a fixed size for consistency */
+    width: 80%;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    margin-left: 20px;
+    border-radius: 50%;
+    /* object-fit: cover; */
+}
