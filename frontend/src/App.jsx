@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button"
 // import Activity from './pages/Activity';
 import './styles/tailwind.css';
 
-function App() {
+export default function App() {
   // const [count, setCount] = useState(0)
 
   return (
@@ -23,5 +23,3 @@ function App() {
     </div>
   )
 }
-
-export default App;
