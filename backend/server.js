@@ -1,14 +1,33 @@
 const express = require('express');
-const connectDB = require('./config/db');
-const authRoutes = require('./routes/authRoutes');
+const cors= require('cors')
+// const authRoutes = require('./routes/authRoutes');
+const dotenv = require('dotenv').config();
+const userRouter = require('./routes/user');
+const authRouter = require('./routes/auth');
+const taskRouter = require('./routes/task');
+
+/**חיבור ל DB */
+require('./config/db');
+
 // const taskRoutes = require('./routes/taskRoutes');
 
 const app = express();
-connectDB();
 
+app.use(
+    cors({
+        origin:['http://localhost:5173'],
+        methods:['GET','POST','PUT','DELETE','PATCH'],
+        credentials:true
+
+    })
+)
+
+
+app.use(express.urlencoded({extended:true}));
 app.use(express.json());
-app.use('/api/auth', authRoutes);
-// app.use('/api/tasks', taskRoutes);
+app.use('/api/user',userRouter)
+app.use('/api/auth',authRouter)
+app.use('/api/tasks',taskRouter)
 
 const PORT = process.env.PORT || 3040;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
