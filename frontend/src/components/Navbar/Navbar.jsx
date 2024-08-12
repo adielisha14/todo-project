@@ -3,7 +3,7 @@ import { useContext,useState } from 'react';
 import './Navbar.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-function Navbar() {
+export default function Navbar() {
   const [popUpDisplay, setPopUpDisplay] = useState('none');
   const togglePopUp = () => {
     setPopUpDisplay(prevState => prevState === 'none' ? 'block' : 'none');
@@ -37,4 +37,3 @@ function Navbar() {
   )
 }
 
-export default Navbar
