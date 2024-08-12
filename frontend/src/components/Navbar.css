@@ -1,0 +1,69 @@
+.navbar {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 10px 20px; 
+  background: linear-gradient(90deg, #16DD89, #43ADAD);
+  color: white;
+  list-style-type: none; 
+  border: white solid 2px;
+  height: 80px;
+  border-radius:25px 15px 0 0 ;
+  text-align: center;
+}
+.hamburger{
+  font-size: 1.8rem;
+  cursor: pointer; 
+  }
+  .searchIcon{
+    font-size: 25px;
+    color:#43ADAD;
+  }
+  .searchBar{
+    background-color: rgba(53, 5, 5, 0);
+    color: black;
+    width:100px;
+  }
+  .searchBar:focus, .searchBar:focus{
+    outline: none;
+}
+
+  .search-container{
+    padding: 13px;
+    background-color: white;
+    box-shadow: inset 0px 0px 3px rgb(129, 129, 129);
+    border-radius: 20px 20px 20px 20px;
+    display: flex;
+    text-align: center;
+    height: 50px;
+  }
+  .popUp {
+    color: #43ADAD;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    background-color: rgb(255, 255, 255);
+    right: 1vw;
+    width: 5vw;
+    top: 57px;
+    border: solid 1px #43ADAD;
+    padding: 5px;
+    border-radius: 5px; 
+  }
+  
+  .popUp > div {
+    height: 40px; 
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    text-align: center; 
+    width: 100%; 
+    cursor: pointer; 
+  }
+  
+  .popUp > div:hover {
+    background: linear-gradient(90deg, #16DD89, #43ADAD);
+    color: rgb(241, 237, 237);
+    border-radius: 5px; 
+  };

@@ -1,0 +1,69 @@
+.sidebar-list{
+    list-style-type: none;
+     padding: 0;
+     margin: 0;
+     width: 100%;
+}
+.sidebar-container li{
+    margin-bottom: 20px;
+}
+.sidebar-container{
+    width: 15vw;
+    height: 89vh;
+    margin: 2px;
+    border-radius: 25px;
+    border: solid 2px #16DD89;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+.searchIconSide{
+    font-size: 25px;
+    right: 0;
+    margin-right: 20px;
+    color:#43ADAD;
+  }
+  .searchBarSide{
+    background-color: rgba(53, 5, 5, 0);
+    color: black;
+    width:100%;
+  }
+  .search-containerSide{
+    padding: 15px;
+    background-color: white;
+    box-shadow: inset 0px 0px 3px rgb(160, 160, 160);
+    border-radius: 20px;
+    display: flex;
+    text-align: center;
+    height: 50px;
+    width: 100%;
+  }
+  .searchBarSide:focus, .searchBarSide:focus{
+    outline: none;
+}
+.addTodo{
+    color:white;
+    font-size: 1em;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #16DD89, #43ADAD);
+    box-shadow: 0px 0px .4rem gray;
+    cursor: pointer;
+}
+.addIcon{
+    font-size: 1.5rem;
+    padding: 10px;
+  }
+#categories >option {
+    background-color: #ece8e8;
+    font-size: 16px; 
+    color: #494949; 
+  }
+  .cateLabel{
+    color: #43ADAD;
+  }
