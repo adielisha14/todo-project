@@ -1,6 +1,7 @@
 import React from 'react'
 import "./sidebar.css"
-function Sidebar() {
+
+export default function Sidebar() {
   return (
     <>
     <div className='sidebar-container'>
@@ -41,4 +42,3 @@ function Sidebar() {
   )
 }
 
-export default Sidebar
