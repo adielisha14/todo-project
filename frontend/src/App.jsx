@@ -3,11 +3,9 @@
 // import viteLogo from '/vite.svg'
 // import './App.css'
 import React from 'react';
-import Home from './pages/Home';
-import Sidebar from './components/Sidebar/Sidebar';
 import { Button } from "@/components/ui/button"
 
-import Navbar from './components/Navbar/Navbar';
+// import Navbar from './components/Navbar';
 // import Home from './pages/Home';
 // import Login from './pages/Login';
 // import Register from './pages/Register';
@@ -20,10 +18,9 @@ function App() {
   // const [count, setCount] = useState(0)
 
   return (
-  <>
-  <Navbar></Navbar>
-  <Sidebar/>
-  </>
+    <div>
+       <Button>Click me</Button>
+    </div>
   )
 }
 
