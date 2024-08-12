@@ -20,7 +20,6 @@ export default function TaskCard({task}) {
     const [edit,setEdit]=useState(false)
 
 
-    
     const { toast } = useToast()
     async function getData(name){
       let newpin,res
@@ -54,11 +53,14 @@ export default function TaskCard({task}) {
           console.log(task._id);
           
           res= await deleteTask(task._id)
-
-
+          
+          
           if(res){
             console.log(res);
-            
+            setTimeout(() => {
+              
+              location.reload()
+            }, 500);
           }else{
             console.log(res);
           }
@@ -69,7 +71,6 @@ export default function TaskCard({task}) {
         default:
           break;
       }
-      location.reload()
   }
   
 
@@ -78,7 +79,12 @@ export default function TaskCard({task}) {
     
     <Card className={`w-[350px] ml-5 relative  ${taskComplete?"line-through":""}`}>
       {edit&&<EditCard cancel={setEdit} task={task} />}
-      <CardDescription className='m-2'>{showUpdated.slice(0,showUpdated.indexOf("GMT")-4)}</CardDescription>      
+      <div className="flex justify-between items-center">
+        <CardDescription className='m-2'>{showUpdated.slice(0,showUpdated.indexOf("GMT")-4)}</CardDescription>      
+        <CardDescription>{category}</CardDescription>
+        <div></div>
+
+      </div>
         {pin?
       <DrawingPinFilledIcon onClick={()=>{getData("isPinned")}} 
       className="mr-2 h-10 w-10 absolute right-0 top-0"/>:
@@ -109,7 +115,13 @@ export default function TaskCard({task}) {
       </CardContent>
       <CardFooter className="flex justify-between">
 
-        <Button variant="destructive"  onClick={()=>{getData("deleteTask")}}  >
+        <Button variant="destructive"  onClick={()=>{getData("deleteTask")
+                  toast({
+                    variant: "destructive",
+                    title: "Deleted successfully ",
+                    description: "The task has been deleted",                    
+                  })
+        }}  >
     
       <TrashIcon/>Delete</Button>
       <Button onClick={()=>{setEdit(true)}}  > <Pencil2Icon className="mr-2"/> Edit</Button>

@@ -61,13 +61,24 @@ const taskController = {
 
     taskListByConditions: async (req,res)=>{
         try{
-            let conditions= req.body.conditions
-            let sortConditions= req.body.sortConditions
-           
-            console.log(req);
+            let conditions= req.query.conditions
+            let sortConditions= req.query.sortConditions
+            let sort= +req.query.sort
+            console.log(conditions);
             
-            const allTasks= await Task.find({userId:req.params.id,[sortConditions]:conditions})
-             res.status(200).json(allTasks)
+       
+            
+            if(conditions !== 'undefined'){
+                console.log("test");
+                
+                const allTasks= await Task.find({userId:req.params.id,[sortConditions]:conditions}).sort({[sortConditions]:sort})
+                res.status(200).json(allTasks)
+            }else{
+                
+                const allTasks= await Task.find({userId:req.params.id}).sort({[sortConditions]:sort})
+                res.status(200).json(allTasks)
+            }
+
  
          }catch(err){
             console.error("There is an error:",err)
@@ -75,7 +86,7 @@ const taskController = {
             
          } 
     },
-    // .sort({[sortConditions]:sort}) let sort= req.body.sort
+
     unPin: async (req,res)=>{
         try{
             let unPin=req.body.isPinned

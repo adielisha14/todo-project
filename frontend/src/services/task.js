@@ -51,8 +51,9 @@ const deleteTask = async (id) => {
     
     try{
         const response = await axios.delete(`/api/tasks/${id}`);
-        return response.data;
+        return response;
     }catch(err){
+        return err;
         
     }
 
@@ -79,7 +80,10 @@ const unPin= async(id,data)=>{
 
 const taskListByConditions= async(id,data)=>{
     try {
-        const response=await axios.get(`/api/tasks/getBy/${id}`,data)
+        if (data.conditions==="") {
+            data={...data,conditions:undefined}
+        }
+        const response=await axios.get(`/api/tasks/getBy/${id}?conditions=${data.conditions}&sortConditions=${data.sortConditions}&sort=${data.sort}`)
         return response;
 
     } catch (error) {

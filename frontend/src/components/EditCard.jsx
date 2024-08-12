@@ -3,7 +3,6 @@ import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Switch } from "@/components/ui/switch"
 
 import { CalendarIcon,CheckIcon, ResetIcon,DrawingPinFilledIcon } from "@radix-ui/react-icons"
@@ -134,7 +133,7 @@ export default function EditCard({cancel,task}) {
                         
 
           </div>
-          <CardFooter className="flex justify-between">
+          <CardFooter className="flex justify-between mt-5">
             <Button variant="outline" onClick={()=>{cancel(false)}}> Cancel<ResetIcon className="ml-2"/> </Button>
             <Button type="submit" onClick={(e)=>{commitEdit(e)}}>add to list <CheckIcon  className="ml-2"/></Button>
          </CardFooter>

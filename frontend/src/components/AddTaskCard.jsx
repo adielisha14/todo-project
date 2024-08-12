@@ -3,25 +3,21 @@ import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Switch } from "@/components/ui/switch"
-
-import { CalendarIcon } from "@radix-ui/react-icons"
+import { CalendarIcon,CheckIcon, ResetIcon,DrawingPinFilledIcon } from "@radix-ui/react-icons"
 import { format } from "date-fns"
- 
 import { cn } from "@/lib/utils"
 import { Calendar } from "@/components/ui/calendar"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
+import {Popover, PopoverContent,PopoverTrigger} from "@/components/ui/popover"
 import { useState } from "react"
 import {createTask} from '../services/task'
 
 
 
 export default function AddTaskCard({cancel}) {
+  //user id 
+  let userId="66b21e119e04a25c9d5bab37"
+
   const [date, setDate] = useState()
   const [formData,setFormData]=useState({})
 
@@ -36,31 +32,13 @@ export default function AddTaskCard({cancel}) {
     }
     console.log(formData);
   }
-
-  let userId="66b21e119e04a25c9d5bab37"
-
-  //  async function submit(e) {
-  //   // e.preventdefault()
-    
-  //   try{
-  //      await createTask(userId,{...formData,date: date})
-  //     //  cancel(false)
-    
-  //   }catch(err){
-  //     return err
-
-  //   }
-  // }
+  
   async function submit(e) {
     e.preventDefault() 
     try{
-      if(date!=undefined){
-        
-      }
       await createTask(userId,{...formData,date: date})
-      cancel(false)
+      location.reload()
 
-    
     }catch(err){
       return err
 
@@ -105,7 +83,6 @@ export default function AddTaskCard({cancel}) {
             <div className="flex flex-col space-y-1.5">
               <div className="flex flex-col space-y-1.5">
               <Label htmlFor="date">To be done by</Label>
-              {/* <Input  onChange={(e)=>{hendelFormData(e)}} id="date" placeholder="Pick a date" /> */}
             </div>
 
             <Popover >
@@ -143,6 +120,8 @@ export default function AddTaskCard({cancel}) {
 
             <div className="flex items-center space-x-2">
               <Switch id="isPinned" onClick={(e)=>{hendelFormData(e)}}/>
+              <DrawingPinFilledIcon/>
+              
               <Label htmlFor="isPinned">Pin to the top</Label>
             </div>
                         
@@ -150,23 +129,11 @@ export default function AddTaskCard({cancel}) {
           </div>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button type='submit'  onClick={(e)=>{submit(e)}}>add to list</Button>
-        <Button variant="outline" onClick={()=>{cancel(false)}}>Cancel</Button>
+        <Button type='submit'  onClick={(e)=>{submit(e)}}>add to list <CheckIcon  className="ml-2"/></Button>
+        <Button variant="outline" onClick={()=>{cancel(false)}}>Cancel <ResetIcon className="ml-2"/> </Button>
       </CardFooter>
         {/* </form> */}
     </Card>
     </div>
   )
 }
-
-/**  title: { type: String, required: true },
-  description: { type: String },
-  body: { type: String, required: true },
-  isComplete: { type: Boolean, default: false },
-  isPinned: { type: Boolean, default: false },
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  category:{ type: String, default: 'general' ,required: true },
-  updated: { type: Date, default: Date.now(), required: true },
-  date:{ type: Date, required: false } */
-
-    
