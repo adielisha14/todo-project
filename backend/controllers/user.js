@@ -1,4 +1,5 @@
 const User = require('../models/User')
+const {getPaylode}= require ('./auth')
 const {hashP}= require('../middleware/encrypt')
 
 
@@ -43,7 +44,7 @@ const userController = {
 
     deleteUser:async (req,res)=>{
         try{
-             await User.findOneAndDelete(req.params.id)
+             await User.findOneAndDelete({_id:req.params.id})
             res.status(204).send()
              
         }catch(err){

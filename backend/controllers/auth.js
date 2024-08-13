@@ -2,6 +2,7 @@ const bcrypt=require('bcrypt');
 const jwt= require('jsonwebtoken');
 const User= require('../models/User');
 
+
 const authController={
     generatAccessToken:function(user){
         
@@ -11,7 +12,8 @@ const authController={
             username: user.username,
             email:user.email ,
             image:user.image,
-            role:user.role
+            role:user.role,
+            _id:user._id
     
         },process.env.JWT_ACCESS_SECRET,{
             expiresIn: '1d'
@@ -47,6 +49,12 @@ const authController={
             
             res.status(500).json({err})
         }
+    },
+
+    getPaylode: function (token) {
+        const paylod=jwt.verify(token,process.env.JWT_ACCESS_SECRET)
+        return paylod
+        
     }
 }
 

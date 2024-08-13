@@ -80,10 +80,10 @@ const unPin= async(id,data)=>{
 
 const taskListByConditions= async(id,data)=>{
     try {
-        if (data.conditions==="") {
-            data={...data,conditions:undefined}
-        }
-        const response=await axios.get(`/api/tasks/getBy/${id}?conditions=${data.conditions}&sortConditions=${data.sortConditions}&sort=${data.sort}`)
+        const conditions= JSON.stringify(data[0])
+        console.log(data[0]);
+        
+        const response=await axios.get(`/api/tasks/getBy/${id}?conditions=${conditions}&sortConditions=${data[1].sortby}&sort=${data[1].sort}`)
         return response;
 
     } catch (error) {
