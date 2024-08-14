@@ -12,7 +12,8 @@ export default function Navbar() {
   return (
     <>
     <ul className='navbar'>
-    <div style={{display:'flex', justifyContent:'space-around', width:'15em'}}>
+    <div className='linksDiv' >
+
     <li style={{marginTop:'12px'}}><a><i className="fas fa-bars hamburger"></i></a></li>
       
     <li>
@@ -39,8 +40,12 @@ export default function Navbar() {
     </div>
 
     <div style={{display:'flex', justifyContent:'space-around', width:'6rem'}}>
-    <li><div href=""><i className="fa-solid fa-gear hamburger"></i></div></li>
-    <li onClick={togglePopUp}><div href=""><i className="fa-solid fa-user hamburger"></i></div>
+    <li><div>
+      {/* <i className="fa-solid fa-gear hamburger"></i> */}
+      </div></li>
+    <li onClick={togglePopUp}><div href="">
+      <i className="fa-solid fa-user hamburger"></i>
+    </div>
 
     <div className='popUp' style={{display:popUpDisplay}}>
         

@@ -11,6 +11,12 @@
   border-radius:25px 15px 0 0 ;
   text-align: center;
 }
+.linksDiv{
+ display: flex;
+ align-items: center;
+ justify-content: space-around;
+ width: 500px;
+}
 .hamburger{
   font-size: 1.8rem;
   cursor: pointer; 
