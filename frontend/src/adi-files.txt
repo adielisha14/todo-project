@@ -1,0 +1,55 @@
+main.jsx
+===========================================
+import React from 'react'
+import { BrowserRouter } from 'react-router-dom'
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx'
+import './index.css'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>,
+)
+=============================================
+
+
+app.jsx
+=============================================
+import React from 'react';
+// import Navbar from './components/Navbar';
+import { Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './contexts/Auth';
+import SwitchTheme from './components/SwitchTheme';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Forgot from './pages/Forgot';
+// import TasksList from './pages/TasksList';
+// import TaskDetails from './pages/TaskDetails';
+// import Activity from './pages/Activity';
+import './styles/tailwind.css'
+
+export default function App() {
+
+  return (
+    <>
+      <AuthProvider>
+          {/* <div className='min-h-screen w-screen bg-background flex justify-center items-center'> */}
+              <SwitchTheme />
+          {/* </div> */}
+        <Routes>
+            <Route path="/" element={<Home/>} />
+            <Route path="/login" element={<Login/>} />
+            <Route path="/register" element={<Register/>} />
+            <Route path="/forgot" element={<Forgot/>} />
+        </Routes>
+      </AuthProvider>
+    </>
+  )
+}
+==============================================
+
+
