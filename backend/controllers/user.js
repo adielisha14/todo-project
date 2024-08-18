@@ -1,4 +1,5 @@
 const User = require('../models/User')
+const {getPaylode}= require ('./auth')
 const {hashP}= require('../middleware/encrypt')
 
 
@@ -43,7 +44,7 @@ const userController = {
 
     deleteUser:async (req,res)=>{
         try{
-             await User.findOneAndDelete(req.params.id)
+             await User.findOneAndDelete({_id:req.params.id})
             res.status(204).send()
              
         }catch(err){
@@ -63,6 +64,23 @@ const userController = {
             console.error("There is an error:",err)
             res.status(500).json({err: err.message})
 
+        }
+    },
+
+    
+    whatRole: async (req,res)=>{
+        try {
+            let user=  getPaylode(req.params.id)
+            if (user.status){
+                res.status(201).json(user.msg.role) 
+            }else{
+                res.status(201).json("gest") 
+            }
+
+    
+        } catch (error) {
+            console.error("There is an error:",err)
+            res.status(500).json({err: err.message})
         }
     }
 

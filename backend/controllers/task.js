@@ -1,5 +1,6 @@
 const Task = require('../models/Task');
 const User = require('../models/User')
+const {getPaylode}= require ('./auth')
 
 
 const taskController = {
@@ -20,7 +21,6 @@ const taskController = {
     },
 
     editTask: async (req,res)=>{
-        console.log("enter fun 3");
         
         try{
             
@@ -34,7 +34,6 @@ const taskController = {
     },
 
     deleteTask: async (req,res)=>{
-        console.log(req.params.id);
         
         try{
             await Task.findOneAndDelete({_id:req.params.id})
@@ -48,22 +47,32 @@ const taskController = {
     },
 
     getTasks: async (req,res)=>{
-        try{
-            const allTasks= await Task.find({userId:req.params.id})
-             res.status(200).json(allTasks)
- 
-         }catch(err){
-             console.error("There is an error:",err)
-             res.status(500).json({err: err.message})
- 
-         } 
+        const userid=getPaylode(req.params.id)
+        console.log(userid);
+        if (userid.status){
+            
+            try{
+                const allTasks= await Task.find({userId:userid.msg._id})
+                 res.status(200).json({auth:true, msg:allTasks})
+     
+             }catch(err){
+                 console.error("There is an error:",err)
+                 res.status(500).json({err: err.message})
+     
+             } 
+
+        }else{
+            res.status(200).json({auth:false, msg: userid.msg});
+        }
     },
 
     taskListByConditions: async (req,res)=>{
+        const userid= getPaylode(req.params.id)
         try{
-            let conditions= req.query.conditions
-            let sortConditions= req.query.sortConditions
+            let conditions= JSON.parse(req.query.conditions) 
+            let sortConditions= req.query.sortby
             let sort= +req.query.sort
+            delete conditions.conditions
             console.log(conditions);
             
        
@@ -71,11 +80,11 @@ const taskController = {
             if(conditions !== 'undefined'){
                 console.log("test");
                 
-                const allTasks= await Task.find({userId:req.params.id,[sortConditions]:conditions}).sort({[sortConditions]:sort})
+                const allTasks= await Task.find({userId:userid._id,...conditions}).sort({[sortConditions]:sort})
                 res.status(200).json(allTasks)
             }else{
                 
-                const allTasks= await Task.find({userId:req.params.id}).sort({[sortConditions]:sort})
+                const allTasks= await Task.find({userId:userid._id}).sort({[sortConditions]:sort})
                 res.status(200).json(allTasks)
             }
 
@@ -114,6 +123,22 @@ const taskController = {
             res.status(500).json({err: err.message})
 
         }
-    }
+    },
+
+    // whatRole: async (req,res)=>{
+    //     try {
+    //         let user=  getPaylode(req.params.id)
+    //         if (user.status){
+    //             res.status(201).json(user.msg.role) 
+    //         }else{
+    //             res.status(201).json("gest") 
+    //         }
+
+    
+    //     } catch (error) {
+    //         console.error("There is an error:",err)
+    //         res.status(500).json({err: err.message})
+    //     }
+    // }
 }
 module.exports=taskController
