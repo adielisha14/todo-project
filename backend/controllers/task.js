@@ -6,12 +6,12 @@ const {getPaylode}= require ('./auth')
 const taskController = {
 
     createTask: async (req,res)=>{
-        console.log("test fun ");
         
+        const userid=getPaylode(req.params.id)
 
         try{
             
-            const newTask = await Task.create({...req.body, userId:req.params.id})
+            const newTask = await Task.create({...req.body, userId:userid.msg._id})
             res.status(201).json(newTask)
             
         }catch(err){
@@ -47,8 +47,10 @@ const taskController = {
     },
 
     getTasks: async (req,res)=>{
+        console.log("test");
+        
         const userid=getPaylode(req.params.id)
-        console.log(userid);
+        console.log("user********************\n"+ userid);
         if (userid.status){
             
             try{
