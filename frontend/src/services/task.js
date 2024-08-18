@@ -2,13 +2,11 @@ import axios from '../utils/axios';
 
 const getTasks = async (id) => {
     try{
-        const response = await axios.get(`/api/tasks/getall/${id}`);
-        
-        return response.data;
+        const response = await axios.get(`api/tasks/getall/${id}`);
+        return response;
 
     }catch(err){
         console.log(err);
-        
         
     }
 
@@ -90,4 +88,13 @@ const taskListByConditions= async(id,data)=>{
         
     }
 }
+
+// const whatRole= async(id)=>{
+//     try {
+//         const role=await axios.get(`/api/tasks/role/${id}`)
+//         return role
+//     } catch (error) {
+        
+//     }
+// }
 export  { getTasks, getTaskById, createTask, editTask, deleteTask ,complete,unPin,taskListByConditions};

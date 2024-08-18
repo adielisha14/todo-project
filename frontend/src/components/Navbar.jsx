@@ -4,7 +4,7 @@ import { Link,useNavigate } from 'react-router-dom'
 import './Navbar.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-export default function Navbar() {
+export default function Navbar({setRenderTask}) {
   const [popUpDisplay, setPopUpDisplay] = useState('none');
   const togglePopUp = () => {
     setPopUpDisplay(prevState => prevState === 'none' ? 'block' : 'none');
@@ -28,7 +28,7 @@ export default function Navbar() {
       </Link>
     </li>
     <li>
-      <Link to={"/taskList"}>
+      <Link onClick={()=>{setRenderTask((prev)=>{prev+1})}} to={"/taskList"}>
         todos
       </Link>
     </li>

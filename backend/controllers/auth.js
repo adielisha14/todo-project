@@ -52,10 +52,15 @@ const authController={
     },
 
     getPaylode: function (token) {
-        const paylod=jwt.verify(token,process.env.JWT_ACCESS_SECRET)
-        return paylod
-        
-    }
+        const payload= jwt.verify(token,process.env.JWT_ACCESS_SECRET,(err,user)=>{
+            if(err){
+
+               return {msg: err,status:false}
+            }
+            return  {msg:user,status:true}
+        })
+        return payload
+    },
 }
 
 module.exports=authController

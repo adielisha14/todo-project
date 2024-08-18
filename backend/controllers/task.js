@@ -49,16 +49,21 @@ const taskController = {
     getTasks: async (req,res)=>{
         const userid=getPaylode(req.params.id)
         console.log(userid);
-        
-        try{
-            const allTasks= await Task.find({userId:userid._id})
-             res.status(200).json(allTasks)
- 
-         }catch(err){
-             console.error("There is an error:",err)
-             res.status(500).json({err: err.message})
- 
-         } 
+        if (userid.status){
+            
+            try{
+                const allTasks= await Task.find({userId:userid.msg._id})
+                 res.status(200).json({auth:true, msg:allTasks})
+     
+             }catch(err){
+                 console.error("There is an error:",err)
+                 res.status(500).json({err: err.message})
+     
+             } 
+
+        }else{
+            res.status(200).json({auth:false, msg: userid.msg});
+        }
     },
 
     taskListByConditions: async (req,res)=>{
@@ -118,6 +123,22 @@ const taskController = {
             res.status(500).json({err: err.message})
 
         }
-    }
+    },
+
+    // whatRole: async (req,res)=>{
+    //     try {
+    //         let user=  getPaylode(req.params.id)
+    //         if (user.status){
+    //             res.status(201).json(user.msg.role) 
+    //         }else{
+    //             res.status(201).json("gest") 
+    //         }
+
+    
+    //     } catch (error) {
+    //         console.error("There is an error:",err)
+    //         res.status(500).json({err: err.message})
+    //     }
+    // }
 }
 module.exports=taskController

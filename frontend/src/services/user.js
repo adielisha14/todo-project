@@ -28,7 +28,17 @@ const deleteUser=async (id)=>{
 
 }
 
-export { userList,deleteUser };
+
+const whatRole= async(id)=>{
+    try {
+        const role=await axios.get(`/api/user/role/${id}`)
+        return role
+    } catch (error) {
+        
+    }
+}
+
+export { userList,deleteUser,whatRole };
 
 
 
