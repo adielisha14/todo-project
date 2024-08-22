@@ -1,7 +1,22 @@
 const bcrypt=require('bcrypt');
 const jwt= require('jsonwebtoken');
 const User= require('../models/User');
+const {mail,htmlForgetPass}=require('../utils/mail')
+const {uppdatePassword}= require('./user')
+const {hashP}= require('../middleware/encrypt')
 
+
+
+function getPaylode(token) {
+    const payload= jwt.verify(token,process.env.JWT_ACCESS_SECRET,(err,user)=>{
+        if(err){
+
+           return {msg: err,status:false}
+        }
+        return  {msg:user,status:true}
+    })
+    return payload
+}
 
 const authController={
     generatAccessToken:function(user){
@@ -51,16 +66,61 @@ const authController={
         }
     },
 
-    getPaylode: function (token) {
-        const payload= jwt.verify(token,process.env.JWT_ACCESS_SECRET,(err,user)=>{
-            if(err){
 
-               return {msg: err,status:false}
+
+    ForgotPassword: async(req,res)=>{
+        let email=req.body.email
+        console.log(email + "\n");
+        
+        try{
+
+            let user= await User.findOne({email:email})
+            if(!user){
+                return res.status(401).json( {msg:"email not found",auth:false})
             }
-            return  {msg:user,status:true}
-        })
-        return payload
-    },
+            
+            let token=jwt.sign({id:user.id},process.env.JWT_ACCESS_SECRET,{ expiresIn: '5m'})
+
+            
+            let reslt= await mail(email,"TodoIt: password reset", "",htmlForgetPass(`http://localhost:5173/ResetPassword?token=${token}`))
+            if (reslt){
+                return res.status(201).json( {auth:true,msg:"The email was sent successfully"})
+
+            }
+
+
+        }catch(err){
+            console.log(err);
+            
+
+        }
+
+    } ,
+
+    resetPassword: async(req,res)=>{
+        let check=req.body.check
+        let token=req.body.token
+  
+        let checkToken= getPaylode(token)
+        if (check){
+            return checkToken.status?
+                res.status(201).json( {auth:true,msg:"valid token"}):
+                res.status(408).json( {auth:false,msg:checkToken.msg})
+            
+        }
+        
+        try{
+            let pass=await hashP(req.body.pass1)
+            const updatedPassword = await User.findByIdAndUpdate(checkToken.msg.id, {password:pass},{ new:true})
+            
+            res.status(200).json({auth:true,msg:"updated Password"})
+        }
+        catch(err){
+            console.error("There is an error:",err)
+            res.status(500).json({err: err.message})    
+        }
+
+    }
 }
 
-module.exports=authController
+module.exports={...authController,getPaylode}

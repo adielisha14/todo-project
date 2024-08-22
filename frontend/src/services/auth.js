@@ -46,5 +46,36 @@ const logout=()=>{
 
 }
 
+const forgotPassword=async (req)=>{
+    try {
+        console.log(req);
+        
+        const response = await axios.post('/api/auth/ForgotPassword', req);
+        return response
+        
+        
+        
+    } catch (error) {
+        console.log(error);
+        return error.response
+        
+    }
+}
 
-export {login,logout,register}
+
+const resetPassword=async(req)=>{
+    try {
+        console.log(req);
+        
+        const response = await axios.post('/api/auth/resetPassword', req);
+        return response
+ 
+    } catch (error) {
+        console.log(error);
+        return error.response
+        
+    }
+
+}
+
+export {login,logout,register,forgotPassword,resetPassword}

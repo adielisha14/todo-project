@@ -15,6 +15,8 @@ import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import TaskList from './pages/TasksList';
 import AddTaskCard from './components/AddTaskCard';
+import Forgot from './pages/Forgot';
+import ResetPassword from './components/ResetPassword';
 import { useToast } from "@/components/ui/use-toast"
 
 
@@ -110,8 +112,10 @@ export default function App() {
             </div>
           </div> }/>
           
-       
+          
         <Route   path={`/userList`} element={role==='admin'?<UsersDetails/>:<h1>admin only</h1>}/>
+        <Route   path={`/forgot`} element={<Forgot/>}/>
+        <Route   path={`/ResetPassword/*`} element={<ResetPassword/>}/>
         <Route   path={`/login`} element={role==="gest"?<Login logIn={logIn}/>:<Home/>}/>
         <Route   path={`/Register`} element={role==="user"?<Home/>:<Register login={logIn}/>}/>
         <Route   path={`*`} element={<Home/>}/>
