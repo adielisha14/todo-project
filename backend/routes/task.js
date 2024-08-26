@@ -3,7 +3,7 @@ const taskRouter = new Router();
 const {createTask,editTask,deleteTask,getTasks,taskListByConditions, unPin,complete}=require("../controllers/task")
 
 
-taskRouter.get('/getall/:id',getTasks)
+taskRouter.get('/getall',getTasks)
 taskRouter.get('/getBy/:id',taskListByConditions)
 taskRouter.put('/:id',editTask)
 taskRouter.post('/:id',createTask)

@@ -120,6 +120,10 @@ const authController={
             res.status(500).json({err: err.message})    
         }
 
+    },
+
+    refreshToken: async(req,res)=>{
+        
     }
 }
 
