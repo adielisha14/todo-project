@@ -49,7 +49,9 @@ export default function Navbar({setRenderTask}) {
 
     <div className='popUp' style={{display:popUpDisplay}}>
         
-          <div /*onClick={handleLogout}*/>Profile</div>
+              <div>
+                <Link to="/profile" onClick={togglePopUp}>Profile</Link>
+              </div>
           <div /*onClick={handleLogout}*/>Logout</div>
 
         </div>

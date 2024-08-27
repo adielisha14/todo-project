@@ -15,6 +15,7 @@ import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import TaskList from './pages/TasksList';
 import AddTaskCard from './components/AddTaskCard';
+import UserProfile from './components/Profile/UserProfile';
 import { useToast } from "@/components/ui/use-toast"
 
 
@@ -85,6 +86,7 @@ export default function App() {
     <div className="static">
       {showAddTodo&&<AddTaskCard cancel={setCount}/>}
       <Navbar setRenderTask={setRenderTask}/>
+      {/* <UserProfile/> */}
       <Routes>
         <Route   path={`/`} element={<h1>home page</h1>}/>
         <Route   path={`/taskList`} element={role==="gest"?<h1>users only</h1>:
@@ -101,7 +103,7 @@ export default function App() {
         <Route   path={`/login`} element={role==="gest"?<>login page</>:<>home</>}/>
         <Route   path={`/Register`} element={role==="user"?<>home</>:<>Register</>}/>
         <Route   path={`*`} element={<>home</>}/>
-
+        <Route   path="/profile" element={<UserProfile />} />
 
       </Routes>
 
