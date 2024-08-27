@@ -4,7 +4,7 @@ const getTasks = async () => {
     try{
         const response = await axios.get(`api/tasks/getall`);
         console.log(response);
-        localStorage.setItem('token', response.token)
+        // localStorage.setItem('token', response.token)
         
         return response;
 

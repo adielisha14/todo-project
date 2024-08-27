@@ -59,11 +59,13 @@ const taskController = {
         // console.log("user********************\n");
         // console.log(userid.msg);
         if (userid.status){
-            let newToken= generatAccessToken(userid)
+            // let newToken= generatAccessToken(userid)
+            // console.log(newToken);
+            
             
             try{
                 const allTasks= await Task.find({userId:userid.msg._id})
-                 res.status(200).json({auth:true, msg:allTasks, token:newToken})
+                 res.status(200).json({auth:true, msg:allTasks})
      
              }catch(err){
                  console.error("There is an error:",err)

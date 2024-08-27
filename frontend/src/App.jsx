@@ -18,6 +18,7 @@ import AddTaskCard from './components/AddTaskCard';
 import Forgot from './pages/Forgot';
 import ResetPassword from './components/ResetPassword';
 import { useToast } from "@/components/ui/use-toast"
+import UserProfile from './pages/Profile/UserProfile';
 
 
 import {getTasks,taskListByConditions} from './services/task'
@@ -125,6 +126,7 @@ export default function App() {
         <Route   path={`/login`} element={role==="gest"?<Login logIn={logIn}/>:<Home/>}/>
         <Route   path={`/Register`} element={role==="user"?<Home/>:<Register login={logIn}/>}/>
         <Route   path={`*`} element={<Home/>}/>
+        <Route   path={`/profile`} element={<UserProfile/>}/>
         <Route path="chat/*" element={     <Suspense fallback={<h1>noooo......</h1>}><Chat/></Suspense>} />
 
 
