@@ -1,6 +1,6 @@
 const Task = require('../models/Task');
 const User = require('../models/User')
-const {getPaylode}= require ('./auth')
+const {getPaylode,generatAccessToken}= require ('./auth')
 
 
 const taskController = {
@@ -47,15 +47,23 @@ const taskController = {
     },
 
     getTasks: async (req,res)=>{
-        console.log("test");
+
+        if( !req.headers.authorization.startsWith('Bearer ')){
+          
+            return  res.status(401).json({auth:false, msg: "not a user"});
+        }
+
+        let token = req.headers.authorization.split(" ")[1]        
+        const userid=getPaylode(token)
         
-        const userid=getPaylode(req.params.id)
-        console.log("user********************\n"+ userid);
+        // console.log("user********************\n");
+        // console.log(userid.msg);
         if (userid.status){
+            let newToken= generatAccessToken(userid)
             
             try{
                 const allTasks= await Task.find({userId:userid.msg._id})
-                 res.status(200).json({auth:true, msg:allTasks})
+                 res.status(200).json({auth:true, msg:allTasks, token:newToken})
      
              }catch(err){
                  console.error("There is an error:",err)

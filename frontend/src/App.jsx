@@ -1,6 +1,6 @@
 import { useState,useEffect } from 'react'
-import { Route,Routes, useLocation,useNavigate } from 'react-router-dom';
-
+import { Route,Routes, useLocation,useNavigate, Link } from 'react-router-dom';
+import { Suspense } from 'react';
 // import './App.css'
 import React from 'react';
 
@@ -23,17 +23,13 @@ import { useToast } from "@/components/ui/use-toast"
 import {getTasks,taskListByConditions} from './services/task'
 import {whatRole} from './services/user'
 import {logout} from './services/auth'
+const Chat = React.lazy(() => import("chat/App"));
 
 
 
 export default function App() {
   const navigate=useNavigate()
   const { toast } = useToast()
-  
-  const exp="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlaGlsYSIsImVtYWlsIjoidGVoaWxhQGdtYWlsLmNvbSIsImltYWdlIjpudWxsLCJyb2xlIjoiYWRtaW4iLCJfaWQiOiI2NmJiMjQ5ZDcxOWMxNWU3YjUzMDNmNmYiLCJpYXQiOjE3MjM3MTk3NjgsImV4cCI6MTcyMzcxOTc2OX0.DQTn3BWpIPR7tpPPO4IAhCFfQyC6OeUZW8-C5b13Rzw"
-  
-  const [token,setToken]=useState(localStorage.getItem('token')?localStorage.getItem('token'): "")
-
   const [showAddTodo, setCount] = useState(false)
   const [allTasks,setTasks]=useState([])
   const [noTasks, setNoTasks] = useState(false)
@@ -42,15 +38,14 @@ export default function App() {
 
   function logOut() {
     console.log("123");
-    setToken("")
     setRole("gest")
     logout()
     setNoTasks('There are no tasks');
     setTasks([])
     navigate('/')
   }
+  
   function logIn(newToken,userRole) {
-    setToken(newToken)
     setRole(userRole)
     navigate('/')
   }
@@ -58,8 +53,8 @@ export default function App() {
   useEffect(() =>{
 
     (async function(){
-      if (token){
-      let res= await getTasks(token)
+      if (localStorage.getItem('token')){
+      let res= await getTasks()
       if(!res.data.auth){
         
         if(res.data.msg.message=="invalid token" || res.data.msg.message=="jwt malformed"){
@@ -67,6 +62,7 @@ export default function App() {
         }
         if(res.data.msg.message=="jwt expired"){
           localStorage.removeItem("role")
+          localStorage.removeItem("token")
           setRole("gest")
           toast({
             variant: "destructive",
@@ -94,13 +90,23 @@ export default function App() {
 
   })()
   
-  },[token])
+  },[])
 
   return (
     <div className="static">
       {showAddTodo&&<AddTaskCard cancel={setCount}/>}
       <Navbar setRenderTask={setRenderTask}/>
       <button onClick={logOut} > logout</button>
+      <Link to="/chat/about" style={{color:"red"}}> about</Link>
+      <Link to="/chat" style={{color:"blue"}}> home</Link>
+      <Link to="/chat/test" style={{color:"green"}}> test</Link>
+
+      <Suspense fallback={<>hi</>}>
+        <Chat/>
+      </Suspense>
+
+      
+
       <Routes>
         <Route   path={`/`} element={<Home/>}/>
         <Route   path={`/taskList`} element={role==="gest"?<h1>users only</h1>:
@@ -119,6 +125,7 @@ export default function App() {
         <Route   path={`/login`} element={role==="gest"?<Login logIn={logIn}/>:<Home/>}/>
         <Route   path={`/Register`} element={role==="user"?<Home/>:<Register login={logIn}/>}/>
         <Route   path={`*`} element={<Home/>}/>
+        <Route path="chat/*" element={     <Suspense fallback={<h1>noooo......</h1>}><Chat/></Suspense>} />
 
 
       </Routes>
