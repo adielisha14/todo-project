@@ -1,0 +1,323 @@
+1. New dir mfe-01 - for working with microfrontends
+
+mfe-01
+         |
+         ------ client - this will be the main microfrontend - the host
+         |
+         ------ server
+
+2. We create the first microfrontend - it will be called remote-a
+
+$ cd mfe-01
+
+$ npx create-vite remote-a --template react
+
+$ cd remote-a 
+
+$ npm i
+
+$ npm i -D @originjs/vite-plugin-federation
+
+$ npm i react-router-dom
+
+olympics
+  |
+  -------client (React - JS - Vite)
+  |
+  -------server (NodeJS-Express-Mongoose)
+
+mfe-01
+  |
+  -------host (React - JS - Vite)
+  |
+  -------remote-a (React - JS - Vite)
+  |
+  -------remote-b (React - TS - Vite)
+
+olympics - microfrontends
+  |
+  -------client (React - JS - Vite) - host
+  |
+  -------chat (React - TS - Vite) - remote-a
+  |
+  -------server (NodeJS-Express-Mongoose)
+
+3. We create the first microfrontend - it will be called remote-b
+
+$ cd mfe-01
+
+$ npx create-vite remote-b --template react-ts
+
+$ cd remote-b 
+
+$ npm i
+
+$ npm i -D @originjs/vite-plugin-federation
+
+$ npm i react-router-dom
+
+4. Add router and basename to each of the remotes, like:
+
+remote-a/src/main.jsx:
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import App from './App.jsx'
+import { BrowserRouter } from 'react-router-dom'
+import './index.css'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <BrowserRouter basename="remoteA">
+
+      <App />
+
+    </BrowserRouter>
+  </StrictMode>
+)
+
+remote-b/src/main.tsx:
+
+5. In remote-a/src/RoutesApp.jsx:
+
+import { Routes, Route } from "react-router-dom";
+
+function Home() {
+
+  return <div>I am the Home of RemoteA</div>;
+
+}
+
+function About() {
+
+  return <div>I am the About of RemoteA</div>;
+
+}
+
+function Contact() {
+
+  return <div>I am the Contact of RemoteA</div>;
+
+}
+
+function AppRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="about" element={<About />} />
+      <Route path="contact" element={<Contact />} />
+    </Routes>
+  );
+}
+
+export default AppRoutes;
+
+6. src/App.jsx now uses it:
+
+import "./App.css";
+import AppRoutes from "./Routes";
+
+function App() {
+  return <AppRoutes />;
+}
+
+export default App;
+
+7. In vite.config.js. we add the base property which is same as we added 
+
+in basename in main.jsx and also exposing the file is expected:
+
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+import federation from "@originjs/vite-plugin-federation";
+import pkg from "./package.json";
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  base: "/remoteA",
+  plugins: [
+    react(),
+    federation({
+      name: "remote_a",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./App": "./src/App",
+      },
+      shared: { ...pkg.dependencies },
+    }),
+  ],
+  build: {
+    target: "esnext", // Set the target environment to esnext
+  },
+})
+
+8. package.json in remote-a:
+
+"scripts": {
+    "dev": "vite --port=4001",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview --port=5001"
+  },
+
+  package.json in remote-b:
+
+"scripts": {
+    "dev": "vite --port=4002",
+    "build": "tsc -b && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview --port=5002"
+  },
+
+9. Now we build and run our both remote Apps in preview mode, as
+
+running in dev mode will not allow to share remoteEntry.js with host
+
+$ npm run build
+
+$ npm run preview  
+
+We'll see the both homes
+
+10. Back to the HOST - our Client dir
+
+olympics-mfe
+         |
+         ------ client - this will be the main microfrontend - the host
+         |
+         ------ remote-a
+         |
+         ------ remote-b
+         |
+         ------ server
+
+
+
+10.
+
+$ npx create-vite host --template react
+
+$ cd host 
+
+$ npm i -D @originjs/vite-plugin-federation
+
+$ npm i react-router-dom
+
+11. Change "scripts" in client/package.json:
+
+"scripts": {
+    "dev": "vite --port=4000",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview --port=5000"
+  },
+
+12. Also we configure client/vite.config.js adding remote remoteEntry.js files
+
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+
+import federation from "@originjs/vite-plugin-federation";
+import pkg from "./package.json";
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [
+    react(),
+    federation({
+      name: "app",
+      remotes: {
+        remoteA: "http://localhost:5001/remoteA/assets/remoteEntry.js",
+        remoteB: "http://localhost:5002/remoteB/assets/remoteEntry.js",
+      },
+      shared: { ...pkg.dependencies },
+    }),
+  ],
+  build: {
+    target: "esnext", // Ensures compatibility with the latest JavaScript features
+  },
+});
+
+13. Create client/src/routes/RemoteRoutes.jsx which will contain 
+
+the lazy importing of remote routes, and for each remote the route pathname 
+
+will be the same as the basename of the remote.
+
+import React from 'react';
+import { Routes, Route } from "react-router-dom";
+const RemoteA = React.lazy(() => import("remoteA/App"));
+const RemoteB = React.lazy(() => import("remoteB/App"));
+
+function RemoteRoutes() {
+  return (
+    <Routes>
+      <Route path="remoteA/*" element={<RemoteA />} />
+      <Route path="remoteB/*" element={<RemoteB />} />
+    </Routes>
+  );
+}
+
+export default RemoteRoutes;
+
+14. Use it in client/src/App.jsx:
+
+import './App.css';
+import { Suspense } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import About from './pages/About';
+import Home from './pages/Home';
+import RemoteRoutes from './routes/RemoteRoutes';
+
+function App() {
+  
+
+  return (
+    <>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+
+        <Route path="/" >
+
+          <Route index element={ <Home /> } />
+          <Route path="about" element={ <About /> } />
+
+        </Route>
+
+        <Route path="/remotes/*" element={<RemoteRoutes />} />
+        
+
+      </Routes>
+    </Suspense>
+    </>
+  )
+}
+
+export default App
+
+15. We add to Home.jsx of the HOST some links to the remotes to check how 
+
+they work:
+
+import { Link } from 'react-router-dom';
+
+const Home = () => {
+  return (
+    <div>
+        <h1>I am the HOST Home</h1>
+        <ul>
+            <li><Link to="/remotes/remoteA/">Remote A Home</Link></li>
+            <li><Link to="/remotes/remoteA/about">Remote A About</Link></li>
+        </ul>
+    </div>
+  )
+}
+
+export default Home
+
+16. $ npm run dev
+
+----------------------------------------------------------------
+
+17. 

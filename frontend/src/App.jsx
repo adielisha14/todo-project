@@ -1,6 +1,6 @@
 import { useState,useEffect } from 'react'
-import { Route,Routes, useLocation,useNavigate } from 'react-router-dom';
-
+import { Route,Routes, useLocation,useNavigate, Link } from 'react-router-dom';
+import { Suspense } from 'react';
 // import './App.css'
 import React from 'react';
 
@@ -23,6 +23,7 @@ import { useToast } from "@/components/ui/use-toast"
 import {getTasks,taskListByConditions} from './services/task'
 import {whatRole} from './services/user'
 import {logout} from './services/auth'
+const Chat = React.lazy(() => import("chat/App"));
 
 
 
@@ -96,6 +97,16 @@ export default function App() {
       {showAddTodo&&<AddTaskCard cancel={setCount}/>}
       <Navbar setRenderTask={setRenderTask}/>
       <button onClick={logOut} > logout</button>
+      <Link to="/chat/about" style={{color:"red"}}> about</Link>
+      <Link to="/chat" style={{color:"blue"}}> home</Link>
+      <Link to="/chat/test" style={{color:"green"}}> test</Link>
+
+      <Suspense fallback={<>hi</>}>
+        <Chat/>
+      </Suspense>
+
+      
+
       <Routes>
         <Route   path={`/`} element={<Home/>}/>
         <Route   path={`/taskList`} element={role==="gest"?<h1>users only</h1>:
@@ -114,6 +125,7 @@ export default function App() {
         <Route   path={`/login`} element={role==="gest"?<Login logIn={logIn}/>:<Home/>}/>
         <Route   path={`/Register`} element={role==="user"?<Home/>:<Register login={logIn}/>}/>
         <Route   path={`*`} element={<Home/>}/>
+        <Route path="chat/*" element={     <Suspense fallback={<h1>noooo......</h1>}><Chat/></Suspense>} />
 
 
       </Routes>
