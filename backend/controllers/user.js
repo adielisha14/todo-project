@@ -90,22 +90,16 @@ const userController = {
           return  res.status(201).json({auth:false, msg:"gest"}) 
 
         }
-        
- 
-        // if( !req.headers.authorization.startsWith('Bearer ')){
-            
-        //     return  res.status(401).json({auth:false, msg: "not a user"});
-        // }
-           let token = req.headers.authorization.split(" ")[1] 
-           console.log(token);
+        let token = req.headers.authorization.split(" ")[1] 
+        console.log(token);
                   
-            const user=getPaylode(token)
+        const user=getPaylode(token)
 
-            if (user.status){
-                res.status(201).json(user) 
-            }else{
+        if (user.status){
+            res.status(201).json(user)             
+        }else{
                 res.status(201).json("gest") 
-            }
+        }
     }
 
 

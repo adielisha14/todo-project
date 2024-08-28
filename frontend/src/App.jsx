@@ -31,6 +31,7 @@ const Chat = React.lazy(() => import("chat/App"));
 export default function App() {
   const navigate=useNavigate()
   const { toast } = useToast()
+
   const [showAddTodo, setCount] = useState(false)
   const [allTasks,setTasks]=useState([])
   const [noTasks, setNoTasks] = useState(false)
@@ -46,7 +47,7 @@ export default function App() {
     navigate('/')
   }
   
-  function logIn(newToken,userRole) {
+  function logIn(userRole) {
     setRole(userRole)
     navigate('/')
   }
@@ -55,25 +56,26 @@ export default function App() {
 
     (async function(){
       if (localStorage.getItem('token')){
-      let res= await getTasks()
-      if(!res.data.auth){
-        
-        if(res.data.msg.message=="invalid token" || res.data.msg.message=="jwt malformed"){
-          return "not a user"
+        let res= await getTasks()
+        if(!res.data.auth){
+          
+          if(res.data.msg.message=="invalid token" || res.data.msg.message=="jwt malformed"){
+            return "not a user"
+          }
+          if(res.data.msg.message=="jwt expired"){
+            // localStorage.removeItem("role")
+            // localStorage.removeItem("token")
+            // setRole("gest")
+            logOut()
+            toast({
+              variant: "destructive",
+              title: "Connection timed out please reconnect ",
+              // description: "Login time has been expired, please login",        
+            })
+            navigate("/login")
+            return res.data.msg
+          }
         }
-        if(res.data.msg.message=="jwt expired"){
-          localStorage.removeItem("role")
-          localStorage.removeItem("token")
-          setRole("gest")
-          toast({
-            variant: "destructive",
-            title: "Connection timed out please reconnect ",
-            // description: "Login time has been expired, please login",        
-          })
-          navigate("/login")
-          return res.data.msg
-        }
-      }
       
       if(res.data.msg){
         
@@ -91,16 +93,13 @@ export default function App() {
 
   })()
   
-  },[])
+  },[renderTask])
 
   return (
     <div className="static">
       {showAddTodo&&<AddTaskCard cancel={setCount}/>}
       <Navbar setRenderTask={setRenderTask}/>
       <button onClick={logOut} > logout</button>
-      <Link to="/chat/about" style={{color:"red"}}> about</Link>
-      <Link to="/chat" style={{color:"blue"}}> home</Link>
-      <Link to="/chat/test" style={{color:"green"}}> test</Link>
 
       <Suspense fallback={<>hi</>}>
         <Chat/>
@@ -126,7 +125,7 @@ export default function App() {
         <Route   path={`/login`} element={role==="gest"?<Login logIn={logIn}/>:<Home/>}/>
         <Route   path={`/Register`} element={role==="user"?<Home/>:<Register login={logIn}/>}/>
         <Route   path={`*`} element={<Home/>}/>
-        <Route   path={`/profile`} element={<UserProfile/>}/>
+        <Route   path={`/profile`} element={role==="user"?<UserProfile/>:<Register login={logIn}/>}/>
         <Route path="chat/*" element={     <Suspense fallback={<h1>noooo......</h1>}><Chat/></Suspense>} />
 
 
