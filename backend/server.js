@@ -6,6 +6,7 @@ const userRouter = require('./routes/user');
 const authRouter = require('./routes/auth');
 const taskRouter = require('./routes/task');
 const chatRouter = require('./routes/chatRouter');
+const messageRoutes = require('./routes/messageRoutes');
 
 const { chats } = require("./data/data")
 
@@ -32,6 +33,7 @@ app.use('/api/user',userRouter)
 app.use('/api/auth',authRouter)
 app.use('/api/tasks',taskRouter)
 app.use('/api/chat',chatRouter)
+app.use('/api/message', messageRoutes)
 
 app.get("/api/chat",(req,res)=>{
     res.send(chats)
