@@ -94,6 +94,25 @@ const userController = {
 
         const users = await User.find(keyword).find({_id:{$ne:req.user._id}})
         res.send(users)
+    },
+
+    getUser: async (req,res)=>{
+
+        if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')){
+          return  res.status(201).json({auth:false, msg:"gest"}) 
+
+        }
+        let token = req.headers.authorization.split(" ")[1] 
+        console.log(token);
+                  
+        const user=getPaylode(token)
+
+        if (user.status){
+            res.status(201).json(user)             
+        }else{
+                res.status(201).json("gest") 
+        }
     }
+
 }
 module.exports=userController

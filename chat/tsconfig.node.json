@@ -13,8 +13,8 @@
     "noEmit": true,
 
     /* Linting */
-    "strict": false,
-    "noUnusedLocals": false,
+    "strict": true,
+    "noUnusedLocals": true,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true
   },

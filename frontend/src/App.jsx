@@ -101,9 +101,12 @@ export default function App() {
       <Link to="/chat" style={{color:"blue"}}> home</Link>
       <Link to="/chat/test" style={{color:"green"}}> test</Link>
 
+   
       <Suspense fallback={<>hi</>}>
         <Chat/>
       </Suspense>
+
+
 
       
 

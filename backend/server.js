@@ -19,12 +19,13 @@ const app = express();
 
 app.use(
     cors({
-        origin:['http://localhost:5173'],
+        origin:['http://localhost:5173','http://localhost:4002','http://localhost:5002'],
         methods:['GET','POST','PUT','DELETE','PATCH'],
         credentials:true
 
     })
 )
+
 
 
 app.use(express.urlencoded({extended:true}));

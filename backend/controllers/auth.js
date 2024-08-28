@@ -55,8 +55,7 @@ const authController={
             await User.findByIdAndUpdate(user.id, {accessToken},{new:true})
             
 
-            return res.status(201).json( {auth:true, messege:'YAY! u r logged in',accessToken 
-            }) 
+            return res.status(201).json( {auth:true, messege:'YAY! u r logged in',accessToken , user:updatedUser }) 
 
 
         }catch(err){

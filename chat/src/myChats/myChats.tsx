@@ -3,22 +3,28 @@ import { chatState } from '../context/chatProvider';
 import axios from 'axios';
 import GroupChatModel from '../GroupChatModel/GroupChatModel';
 import SingleChat from '../SingleChat/SingleChat';
-// import { getSender } from '../config/chatLogics';
+import { getSender } from '../config/chatLogics';
 
 interface ChatBoxProps {
   fetchAgain: boolean;
   setFetchAgain: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const MyChats: React.FC<ChatBoxProps> = ({ fetchAgain, setFetchAgain }) => {
+const MyChats: React.FC<ChatBoxProps> = ({ fetchAgain}) => {
+  // const MyChats: React.FC<ChatBoxProps> = ({ fetchAgain, setFetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newMessage, setNewMessage] = useState<string>("");
   const [messages, setMessages] = useState<any[]>([]);
+  const [token,setToken]=useState<string>(localStorage.getItem("token")||"null")
 
-  const { selectedChat, setSelectedChat, chats, setChats, user } = chatState();
+  const { selectedChat, setChats, user } = chatState();
+  // const {  setSelectedChat, chats } = chatState();
 
+  console.log(loggedUser);
+  
   const handleOpenModal = () => {
+    setToken(localStorage.getItem("token")||"null")
     setIsModalOpen(true);
   };
 
@@ -30,13 +36,14 @@ const MyChats: React.FC<ChatBoxProps> = ({ fetchAgain, setFetchAgain }) => {
     if (!selectedChat) {return}
     try {
       const config = {
+        baseURL:"http://localhost:3040/",
         headers: {
-          Authorization: `Bearer ${user?.token}`,
+          Authorization: `Bearer ${token}`,
         },
       };
-      const {data}= await axios.get(`/api/message/${selectedChat._id}`,
+      const res= await axios.get(`/api/message/${selectedChat._id}`,
         config)
-        setMessages(data)
+        setMessages(res?.data)
     } catch (error) {
       console.error(error);
       
@@ -50,13 +57,14 @@ const MyChats: React.FC<ChatBoxProps> = ({ fetchAgain, setFetchAgain }) => {
   const fetchChats = async () => {
     try {
       const config = {
+        baseURL:"http://localhost:3040/",
         headers: {
-          Authorization: `Bearer ${user?.token}`,
+          Authorization: `Bearer ${token}`,
         },
       };
-      const { data } = await axios.get('/api/chat', config);
-      console.log(data);
-      setChats(data);
+      const res = await axios.get('/api/chat', config);
+      console.log(res?.data);
+      setChats(res?.data);
     } catch (error) {
       console.error(error);
     }
@@ -67,9 +75,11 @@ const MyChats: React.FC<ChatBoxProps> = ({ fetchAgain, setFetchAgain }) => {
       if (newMessage.trim()) {
         try {
           const config = {
+            
+        baseURL:"http://localhost:3040/",
             headers: {
               "Content-type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
+              Authorization: `Bearer ${token}`,
             },
           };
           setNewMessage("");
@@ -125,15 +135,13 @@ const MyChats: React.FC<ChatBoxProps> = ({ fetchAgain, setFetchAgain }) => {
 
         <GroupChatModel isOpen={isModalOpen} onClose={handleCloseModal} />
 
-    
-        {/* {!selectedChat.isGroupChat ? (
-          <>{getSender(user, selectedChat.users)}</>
-        ) : (
-          <>
-            {selectedChat.chatName.toUpperCase() || "Chat Name"}
-          </>
-        )} */}
-        chat header
+        {!selectedChat ? (
+        <>No Chat Selected</>
+      ) : !selectedChat.isGroupChat ? (
+        <>{getSender(user, selectedChat.users) || "No Sender"}</>
+      ) : (
+        <>{selectedChat.chatName?.toUpperCase() || "Chat Name"}</>
+      )}
       </div>
 
       {/* Chat messages container */}

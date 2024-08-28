@@ -19,26 +19,35 @@ interface User {
 
 const GroupChatModel: React.FC<GroupChatModelProps> = ({ isOpen, onClose }) => {
   const [groupChatName, setGroupChatName] = useState<string | undefined>(undefined);
+  const [token,setToken]=useState<string>(localStorage.getItem("token")||"null")
 
   const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
 
   const [search, setSearch]=useState('');
   const [searchResult, setSearchResult] = useState<User[]>([]);
+  const config = {
+    baseURL:"http://localhost:3040/",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
 
 
-    const {user, chats, setChats}=chatState()
+    const {chats, setChats}=chatState()
+    console.log(setToken);
+    
 
     const handleSearch =async(query:string)=>{
         setSearch(query)
         if (!query) {return}
         try {
-            const config = {
-                headers: {
-                  Authorization: `Bearer ${user?.token}`,
-                },
-              };
-              const {data}=await axios.get(`/api/user/search?search=${search}`,config);
-              setSearchResult(data)
+            // const config = {
+            //     headers: {
+            //       Authorization: `Bearer ${token}`,
+            //     },
+            //   };
+              const res=await axios.get(`/api/user/search?search=${search}`,config);
+              setSearchResult(res?.data)
         } catch (error) {
             console.log(error);
             
@@ -63,16 +72,12 @@ const GroupChatModel: React.FC<GroupChatModelProps> = ({ isOpen, onClose }) => {
        return
     }
     try {
-        const config = {
-            headers: {
-              Authorization: `Bearer ${user?.token}`,
-            },
-          };
-          const {data}= await axios.post('/api/chat/group',{
+       
+          const res= await axios.post('/api/chat/group',{
             name:groupChatName,
-            user:JSON.stringify(selectedUsers.map((u)=>u._id))
+            users:JSON.stringify(selectedUsers.map((u)=>u._id))
           },config)
-          setChats([data, ...chats])
+          setChats([res?.data, ...chats])
     } catch (error) {
      console.error(error);
      
@@ -101,7 +106,7 @@ const GroupChatModel: React.FC<GroupChatModelProps> = ({ isOpen, onClose }) => {
             <input
               type="text"
               onChange={(e) => handleSearch(e.target.value)}
-              required
+              // required
             />
             {selectedUsers.map((u) => (
             <UserBadgeItem 

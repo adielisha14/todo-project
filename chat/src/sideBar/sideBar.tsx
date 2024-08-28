@@ -27,20 +27,28 @@ const SideBar:  React.FC = () => {
   const [searchResult, setSearchResult] = useState<User[]>([]);
   const { user, selectedChat, setSelectedChat, chats, setChats } = chatState();
   const [loggedUser, setLoggedUser] = useState<User | null>(null);
+  const [token,setToken]=useState<string>(localStorage.getItem("token")||"null")
+console.log(setToken);
 
+  const config = {
+    baseURL:"http://localhost:3040/",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
   useEffect(() => {
     setLoggedUser(user);
   }, [user]);
 
   const handleSearch = async () => {
     try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${user?.token}`,
-        },
-      };
-      const { data } = await axios.get<User[]>(`/api/user/search?search=${search}`, config);
-      setSearchResult(data);
+      // const config = {
+      //   headers: {
+      //     Authorization: `Bearer ${user?.token}`,
+      //   },
+      // };
+      const res = await axios.get<User[]>(`/api/user/search?search=${search}`, config);
+      setSearchResult(res?.data);
     } catch (error) {
       console.error(error);
     }
@@ -48,16 +56,16 @@ const SideBar:  React.FC = () => {
 
   const accessChat = async (userId: string) => {
     try {
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${user?.token}`,
-        },
-      };
-      const { data } = await axios.post('/api/chat', { userId }, config);
-      if (!chats.find((c: any) => c._id === data._id)) setChats([data, ...chats]);
+      // const config = {
+      //   headers: {
+      //     "Content-type": "application/json",
+      //     Authorization: `Bearer ${user?.token}`,
+      //   },
+      // };
+      const res = await axios.post('/api/chat', { userId }, config);
+      if (!chats.find((c: any) => c._id === res?.data._id)) setChats([res?.data, ...chats]);
 
-      setSelectedChat(data);
+      setSelectedChat(res?.data);
       setSearchResult([]);
     } catch (error) {
       console.error(error);
