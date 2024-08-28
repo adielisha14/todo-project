@@ -1,8 +1,11 @@
 import axios from '../utils/axios';
 
-const getTasks = async (id) => {
+const getTasks = async () => {
     try{
-        const response = await axios.get(`api/tasks/getall/${id}`);
+        const response = await axios.get(`api/tasks/getall`);
+        console.log(response);
+        // localStorage.setItem('token', response.token)
+        
         return response;
 
     }catch(err){

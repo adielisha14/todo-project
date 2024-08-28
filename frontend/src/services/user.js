@@ -38,7 +38,27 @@ const whatRole= async(id)=>{
     }
 }
 
-export { userList,deleteUser,whatRole };
+ const editUser= async(id,form)=>{
+    try {
+        const response=await axios.put(`/api/user/${id}`,form)
+        return response
+    } catch (error) {
+        console.log(error); 
+    }
+ }
+
+ const getUser=async()=>{
+    try {
+        const response= await axios.get('/api/user/getUser')
+        return response
+    } catch (error) {
+        console.log(error);
+        return error
+    }
+ }
+
+
+export { userList,deleteUser,whatRole,editUser,getUser };
 
 
 

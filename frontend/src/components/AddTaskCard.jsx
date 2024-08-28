@@ -16,7 +16,7 @@ import {createTask} from '../services/task'
 
 export default function AddTaskCard({cancel}) {
   //user id 
-  let userId="66b21e119e04a25c9d5bab37"
+  // let userId="66b21e119e04a25c9d5bab37"
 
   const [date, setDate] = useState()
   const [formData,setFormData]=useState({})
@@ -36,7 +36,7 @@ export default function AddTaskCard({cancel}) {
   async function submit(e) {
     e.preventDefault() 
     try{
-      await createTask(userId,{...formData,date: date})
+      await createTask(localStorage.getItem("token"),{...formData,date: date})
       location.reload()
 
     }catch(err){

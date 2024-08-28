@@ -1,21 +1,35 @@
+/**הערות!
+ * שורה 40: אםיש קלאס של אזהרה צריך להוסף שם 
+ * שורה 63: הורדתי את המינימום ל1 צריך להחזיר ל6 לקראת הסוף- המשתמשים הפקטיבים 
+ * עם סיסמא של 3 תווים
+ */
+
 import React from 'react';
 import  { useState } from 'react';
 import { Link } from 'react-router-dom';
-import useAuth from '../hooks/useAuth';
+// import useAuth from '../hooks/useAuth';
 import accessimg from '../assets/img/access.svg';
+import {login} from '../services/auth'
 // import fingerprintimg from '../assets/img/fingerprint.svg';
 
-export default function Login(){
-    const [credentials, setCredentials] = useState({ username: '', password: '' });
-    const { login } = useAuth();
+export default function Login({logIn}){
+    const [credentials, setCredentials] = useState({ email: '', password: '' });
+    const [logerr,setlogerr]=useState(false)
+    // const { login } = useAuth();
 
     const handleChange = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        login(credentials);
+       let res= await login(credentials)
+       if (res.auth){
+        setlogerr(false)
+        logIn(res.token,res.role)
+       }else{
+        setlogerr(res.err)
+       }
     };
 
     return (
@@ -25,16 +39,18 @@ export default function Login(){
         <div className="md:w-1/2 px-5">
             <h2 className="text-2xl font-bold text-text/90">Login</h2>
             <p className="text-sm mt-4 text-accent/75">If you have an account, please login</p>
+            {logerr&&<p className="text-sm mt-4 text-accent/75" style={{color:"red"}}>{logerr}</p>}
                 <form className='mt-6' onSubmit={handleSubmit}>
                 <div>
-                    <label className="block text-accent/95">Username</label>
+                    <label className="block text-accent/95">Email</label>
                     <input
                         type="text"
-                        name="username"
-                        value={credentials.username}
+                        name="email"
+                        value={credentials.email}
                         onChange={handleChange}
-                        placeholder="Username"
-                        className="w-full px-4 py-3 rounded-lg bg-primary/25 mt-2 border focus:border-accent/90 focus:bg-primary/40 border-secondary outline-none" autofocus autocomplete required 
+                        placeholder="email"
+                        className="w-full px-4 py-3 rounded-lg bg-primary/25 mt-2 border focus:border-accent/90 focus:bg-primary/40 border-secondary outline-none" 
+                        autoFocus required 
                     />
                 </div>
                 <div className="mt-4">
@@ -45,7 +61,7 @@ export default function Login(){
                         value={credentials.password}
                         onChange={handleChange}
                         placeholder="Password"
-                        minlength="6" className="w-full px-4 py-3 rounded-lg bg-primary/25 mt-2 border focus:border-accent/90
+                        minLength="1" className="w-full px-4 py-3 rounded-lg bg-primary/25 mt-2 border focus:border-accent/90
                         focus:bg-primary/40 border-secondary outline-none" required
                     />
                 </div>

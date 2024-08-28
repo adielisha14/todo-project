@@ -1,17 +1,17 @@
 const Task = require('../models/Task');
 const User = require('../models/User')
-const {getPaylode}= require ('./auth')
+const {getPaylode,generatAccessToken}= require ('./auth')
 
 
 const taskController = {
 
     createTask: async (req,res)=>{
-        console.log("test fun ");
         
+        const userid=getPaylode(req.params.id)
 
         try{
             
-            const newTask = await Task.create({...req.body, userId:req.params.id})
+            const newTask = await Task.create({...req.body, userId:userid.msg._id})
             res.status(201).json(newTask)
             
         }catch(err){
@@ -47,9 +47,21 @@ const taskController = {
     },
 
     getTasks: async (req,res)=>{
-        const userid=getPaylode(req.params.id)
-        console.log(userid);
+
+        if( !req.headers.authorization.startsWith('Bearer ')){
+          
+            return  res.status(401).json({auth:false, msg: "not a user"});
+        }
+
+        let token = req.headers.authorization.split(" ")[1]        
+        const userid=getPaylode(token)
+        
+        // console.log("user********************\n");
+        // console.log(userid.msg);
         if (userid.status){
+            // let newToken= generatAccessToken(userid)
+            // console.log(newToken);
+            
             
             try{
                 const allTasks= await Task.find({userId:userid.msg._id})

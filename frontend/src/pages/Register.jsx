@@ -1,20 +1,30 @@
 import React from 'react';
 import { useState }  from 'react';
-import useAuth from '../hooks/useAuth';
-import { Link } from 'react-router-dom';
+// import useAuth from '../hooks/useAuth';
+import { Link,useNavigate } from 'react-router-dom';
 import formimg from '../assets/img/form.svg';
+import { register } from '../services/auth';
 
-export default function Register(){
+export default function Register({login}){
     const [credentials, setCredentials] = useState({ email: '', username: '', password: '' });
-    const { login } = useAuth();
+    const [dataErr,setDateErr]=useState(false)
+    const navigate=useNavigate()
+
+    // const { login } = useAuth();
 
     const handleChange = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        login(credentials);
+        let res= await register(credentials)
+        if (res.auth){
+            login(res.token, res.role)
+        }else{
+            setDateErr(res.err)
+        }
+        
     };
 
     return (
@@ -25,6 +35,7 @@ export default function Register(){
                     <div className="md:w-1/2 px-5">
                         <h2 className="text-2xl font-bold text-text/90">Register</h2>
                         <p className="text-sm mt-4 text-accent/75">Welcome to ToDoIt app tasks management</p>
+                        {dataErr&&<p className="text-sm mt-4 text-accent/75" style={{color:"red"}}>{dataErr}</p>}
                         <form className='mt-6' onSubmit={handleSubmit}>
                             <div>
                                 <label className="block text-accent/95">Email</label>
@@ -34,7 +45,7 @@ export default function Register(){
                                     value={credentials.email}
                                     onChange={handleChange}
                                     placeholder="youremail@gmail.com"
-                                    className="w-full px-4 py-3 rounded-lg bg-primary/25 mt-2 border focus:border-accent/90 focus:bg-primary/40 border-secondary outline-none" autofocus autocomplete required 
+                                    className="w-full px-4 py-3 rounded-lg bg-primary/25 mt-2 border focus:border-accent/90 focus:bg-primary/40 border-secondary outline-none" autoFocus required 
                                 />
                             </div>
                             <div>
@@ -45,7 +56,7 @@ export default function Register(){
                                     value={credentials.username}
                                     onChange={handleChange}
                                     placeholder="Username"
-                                    className="w-full px-4 py-3 rounded-lg bg-primary/25 mt-2 border focus:border-accent/90 focus:bg-primary/40 border-secondary outline-none" autofocus autocomplete required 
+                                    className="w-full px-4 py-3 rounded-lg bg-primary/25 mt-2 border focus:border-accent/90 focus:bg-primary/40 border-secondary outline-none" autoFocus required 
                                 />
                             </div>
                             <div className="mt-4">
@@ -56,7 +67,7 @@ export default function Register(){
                                     value={credentials.password}
                                     onChange={handleChange}
                                     placeholder="Password"
-                                    minlength="6" className="w-full px-4 py-3 rounded-lg bg-primary/25 mt-2 border focus:border-accent/90
+                                    minLength="6" className="w-full px-4 py-3 rounded-lg bg-primary/25 mt-2 border focus:border-accent/90
                                     focus:bg-primary/40 border-secondary outline-none" required
                                 />
                             </div>
