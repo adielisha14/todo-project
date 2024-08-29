@@ -19,6 +19,7 @@ import Forgot from './pages/Forgot';
 import ResetPassword from './components/ResetPassword';
 import { useToast } from "@/components/ui/use-toast"
 import UserProfile from './pages/Profile/UserProfile';
+import Err from './pages/Err';
 
 
 import {getTasks,taskListByConditions} from './services/task'
@@ -63,9 +64,6 @@ export default function App() {
             return "not a user"
           }
           if(res.data.msg.message=="jwt expired"){
-            // localStorage.removeItem("role")
-            // localStorage.removeItem("token")
-            // setRole("gest")
             logOut()
             toast({
               variant: "destructive",
@@ -98,10 +96,9 @@ export default function App() {
   return (
     <div className="static">
       {showAddTodo&&<AddTaskCard cancel={setCount}/>}
-      <Navbar setRenderTask={setRenderTask}/>
-      <button onClick={logOut} > logout</button>
+      <Navbar setRenderTask={setRenderTask} role={role} logout={logOut}/>
 
-      <Suspense fallback={<>hi</>}>
+      <Suspense fallback={<>loading......</>}>
         <Chat/>
       </Suspense>
 
@@ -109,7 +106,8 @@ export default function App() {
 
       <Routes>
         <Route   path={`/`} element={<Home/>}/>
-        <Route   path={`/taskList`} element={role==="gest"?<h1>users only</h1>:
+        <Route   path={`/taskList`} element={role==="gest"?
+          <Err access={"users"} nav={"Register"}/>:
           <div style={{display: "flex" ,justifyContent: "space-between", alignItems: "flex-start"}} 
             className='test flax items-center justify-between'>
             <Sidebar setCount={setCount} setTasks={setTasks} setNoTasks={setNoTasks}/>
@@ -117,16 +115,16 @@ export default function App() {
               <TaskList allTasks={allTasks} noTasks={noTasks}/>
             </div>
           </div> }/>
+         
           
-          
-        <Route   path={`/userList`} element={role==='admin'?<UsersDetails/>:<h1>admin only</h1>}/>
+        <Route   path={`/userList`} element={role==='admin'?<UsersDetails/>:<Err access={"admins"} nav={"home"}/>}/>
         <Route   path={`/forgot`} element={<Forgot/>}/>
         <Route   path={`/ResetPassword/*`} element={<ResetPassword/>}/>
         <Route   path={`/login`} element={role==="gest"?<Login logIn={logIn}/>:<Home/>}/>
         <Route   path={`/Register`} element={role==="user"?<Home/>:<Register login={logIn}/>}/>
         <Route   path={`*`} element={<Home/>}/>
-        <Route   path={`/profile`} element={role==="user"?<UserProfile/>:<Register login={logIn}/>}/>
-        <Route path="chat/*" element={     <Suspense fallback={<h1>noooo......</h1>}><Chat/></Suspense>} />
+        <Route   path={`/profile`} element={role==="user"?<Err access={"users"} nav={"Register"}/>:<UserProfile/>}/>
+        <Route path="chat/*" element={     <Suspense fallback={<h1> loading......</h1>}><Chat/></Suspense>} />
 
 
       </Routes>

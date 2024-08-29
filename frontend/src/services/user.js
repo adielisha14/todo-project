@@ -1,4 +1,10 @@
 import axios from '../utils/axios';
+function renewToken(token) {
+    if (token){
+        localStorage.setItem('token', token)
+
+    }
+}
 const userList= async () => {
     try{
         const response = await axios.get(`/api/user`);
@@ -32,6 +38,7 @@ const deleteUser=async (id)=>{
 const whatRole= async(id)=>{
     try {
         const role=await axios.get(`/api/user/role/${id}`)
+
         return role
     } catch (error) {
         
@@ -41,6 +48,7 @@ const whatRole= async(id)=>{
  const editUser= async(id,form)=>{
     try {
         const response=await axios.put(`/api/user/${id}`,form)
+        renewToken(response.data.token)
         return response
     } catch (error) {
         console.log(error); 

@@ -57,15 +57,12 @@ const taskController = {
         const userid=getPaylode(token)
         
         // console.log("user********************\n");
-        // console.log(userid.msg);
         if (userid.status){
-            // let newToken= generatAccessToken(userid)
-            // console.log(newToken);
-            
+            let newToken= generatAccessToken(userid.msg)
             
             try{
                 const allTasks= await Task.find({userId:userid.msg._id})
-                 res.status(200).json({auth:true, msg:allTasks})
+                 res.status(200).json({auth:true, msg:allTasks,token:newToken})
      
              }catch(err){
                  console.error("There is an error:",err)
@@ -85,13 +82,10 @@ const taskController = {
             let sortConditions= req.query.sortby
             let sort= +req.query.sort
             delete conditions.conditions
-            console.log(conditions);
             
        
             
             if(conditions !== 'undefined'){
-                console.log("test");
-                
                 const allTasks= await Task.find({userId:userid._id,...conditions}).sort({[sortConditions]:sort})
                 res.status(200).json(allTasks)
             }else{

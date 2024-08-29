@@ -1,11 +1,17 @@
 import axios from '../utils/axios';
 
+function renewToken(token) {
+    if (token){
+        localStorage.setItem('token', token)
+
+    }
+}
+
 const getTasks = async () => {
     try{
         const response = await axios.get(`api/tasks/getall`);
         console.log(response);
-        // localStorage.setItem('token', response.token)
-        
+        renewToken(response.data.token)
         return response;
 
     }catch(err){
@@ -19,6 +25,7 @@ const getTaskById = async (id) => {
     try{
 
         const response = await axios.get(`/api/tasks/${id}`);
+        
         return response.data;
     }catch(err){
         console.log(err);
@@ -41,6 +48,8 @@ const editTask = async (id, task) => {
     try{
 
         const response = await axios.put(`/api/tasks/${id}`, task);
+        console.log(response);
+        
         return response.data;
         
     }catch(err){

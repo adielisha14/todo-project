@@ -4,8 +4,9 @@ import { Link,useNavigate } from 'react-router-dom'
 import './Navbar.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-export default function Navbar({setRenderTask}) {
+export default function Navbar({setRenderTask,role,logout}) {
   const [popUpDisplay, setPopUpDisplay] = useState('none');
+  const navigate=useNavigate()
   const togglePopUp = () => {
     setPopUpDisplay(prevState => prevState === 'none' ? 'block' : 'none');
 }
@@ -48,9 +49,17 @@ export default function Navbar({setRenderTask}) {
     </div>
 
     <div className='popUp' style={{display:popUpDisplay}}>
+      {role==="gest"?<>
+        <div onClick={()=>navigate('/Login')}>Login</div>
+        <div onClick={()=>navigate('/Register')}>Register</div>
+
+      </>:<>
+        <div onClick={()=>navigate('/Profile')}>Profile</div>
+        <div onClick={logout}>Logout</div>
+      
+      </>
+      }
         
-          <div /*onClick={handleLogout}*/>Profile</div>
-          <div /*onClick={handleLogout}*/>Logout</div>
 
         </div>
     </li>
