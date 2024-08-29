@@ -38,7 +38,7 @@ interface ChatBoxProps {
   setFetchAgain: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ENDPOINT = "http://localhost:5002";
+const ENDPOINT = "http://localhost:5173";
 
 let socket: Socket | undefined;
 let selectedChatCompare: Chat | null = null;
