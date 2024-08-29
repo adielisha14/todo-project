@@ -53,6 +53,13 @@ export default function App() {
   useEffect(() =>{
 
     (async function(){
+      if (!localStorage.getItem('token')) {
+        console.log(123);
+        
+        setRole("gest")
+        
+      }
+      
       if (localStorage.getItem('token')){
       let res= await getTasks()
       if(!res.data.auth){
@@ -93,6 +100,7 @@ export default function App() {
   },[])
 
   return (
+      <Suspense fallback={<>hi</>}>
     <div className="static">
       {showAddTodo&&<AddTaskCard cancel={setCount}/>}
       <Navbar setRenderTask={setRenderTask}/>
@@ -102,9 +110,7 @@ export default function App() {
       <Link to="/chat/test" style={{color:"green"}}> test</Link>
 
    
-      <Suspense fallback={<>hi</>}>
         <Chat/>
-      </Suspense>
 
 
 
@@ -125,7 +131,7 @@ export default function App() {
         <Route   path={`/userList`} element={role==='admin'?<UsersDetails/>:<h1>admin only</h1>}/>
         <Route   path={`/forgot`} element={<Forgot/>}/>
         <Route   path={`/ResetPassword/*`} element={<ResetPassword/>}/>
-        <Route   path={`/login`} element={role==="gest"?<Login logIn={logIn}/>:<Home/>}/>
+        <Route   path={`/login`} element={<Login logIn={logIn}/>}/>
         <Route   path={`/Register`} element={role==="user"?<Home/>:<Register login={logIn}/>}/>
         <Route   path={`*`} element={<Home/>}/>
         <Route path="chat/*" element={     <Suspense fallback={<h1>noooo......</h1>}><Chat/></Suspense>} />
@@ -134,5 +140,6 @@ export default function App() {
       </Routes>
 
     </div>
+      </Suspense>
   )
 }

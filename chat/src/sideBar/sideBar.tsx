@@ -1,3 +1,4 @@
+// import React, { useState } from 'react';
 import React, { useState, useEffect } from 'react';
 import { chatState } from '../context/chatProvider';
 import axios from 'axios';
@@ -27,13 +28,12 @@ const SideBar:  React.FC = () => {
   const [searchResult, setSearchResult] = useState<User[]>([]);
   const { user, selectedChat, setSelectedChat, chats, setChats } = chatState();
   const [loggedUser, setLoggedUser] = useState<User | null>(null);
-  const [token,setToken]=useState<string>(localStorage.getItem("token")||"null")
-console.log(setToken);
+
 
   const config = {
     baseURL:"http://localhost:3040/",
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${localStorage.getItem("token")||"null"}`,
     },
   };
   useEffect(() => {
@@ -42,26 +42,17 @@ console.log(setToken);
 
   const handleSearch = async () => {
     try {
-      // const config = {
-      //   headers: {
-      //     Authorization: `Bearer ${user?.token}`,
-      //   },
-      // };
+
       const res = await axios.get<User[]>(`/api/user/search?search=${search}`, config);
       setSearchResult(res?.data);
     } catch (error) {
       console.error(error);
     }
   };
-
+ 
   const accessChat = async (userId: string) => {
     try {
-      // const config = {
-      //   headers: {
-      //     "Content-type": "application/json",
-      //     Authorization: `Bearer ${user?.token}`,
-      //   },
-      // };
+
       const res = await axios.post('/api/chat', { userId }, config);
       if (!chats.find((c: any) => c._id === res?.data._id)) setChats([res?.data, ...chats]);
 
@@ -71,6 +62,7 @@ console.log(setToken);
       console.error(error);
     }
   };
+
 
   return (
     <div style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '5px', width: '300px' }}>
@@ -101,6 +93,7 @@ console.log(setToken);
             <UserListItem
               key={user._id}
               user={user}
+              // handleFunction={() => (console.log("123"))}
               handleFunction={() => accessChat(user._id)}
             />
           ))}

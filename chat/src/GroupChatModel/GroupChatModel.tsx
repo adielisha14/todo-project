@@ -19,33 +19,26 @@ interface User {
 
 const GroupChatModel: React.FC<GroupChatModelProps> = ({ isOpen, onClose }) => {
   const [groupChatName, setGroupChatName] = useState<string | undefined>(undefined);
-  const [token,setToken]=useState<string>(localStorage.getItem("token")||"null")
-
   const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
-
+  const [searchtxt, setSearchtxt]=useState('');
   const [search, setSearch]=useState('');
   const [searchResult, setSearchResult] = useState<User[]>([]);
+
   const config = {
     baseURL:"http://localhost:3040/",
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${localStorage.getItem("token")||"null"}`,
     },
   };
 
 
     const {chats, setChats}=chatState()
-    console.log(setToken);
     
 
     const handleSearch =async(query:string)=>{
         setSearch(query)
         if (!query) {return}
         try {
-            // const config = {
-            //     headers: {
-            //       Authorization: `Bearer ${token}`,
-            //     },
-            //   };
               const res=await axios.get(`/api/user/search?search=${search}`,config);
               setSearchResult(res?.data)
         } catch (error) {
@@ -105,7 +98,9 @@ const GroupChatModel: React.FC<GroupChatModelProps> = ({ isOpen, onClose }) => {
             <label style={{color:"black"}}>Search Users:</label>
             <input
               type="text"
-              onChange={(e) => handleSearch(e.target.value)}
+              onChange={(e) => {setSearchtxt(e.target.value)
+                                handleSearch(e.target.value)}}
+              value={searchtxt}
               // required
             />
             {selectedUsers.map((u) => (

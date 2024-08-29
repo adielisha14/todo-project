@@ -63,7 +63,7 @@ const taskController = {
             
             try{
                 const allTasks= await Task.find({userId:userid.msg._id})
-                 res.status(200).json({auth:true, msg:allTasks, token:newToken})
+                 res.status(200).json({auth:true, msg:allTasks})
      
              }catch(err){
                  console.error("There is an error:",err)

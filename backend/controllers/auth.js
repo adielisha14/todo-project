@@ -55,7 +55,9 @@ const authController={
             await User.findByIdAndUpdate(user.id, {accessToken},{new:true})
             
 
-            return res.status(201).json( {auth:true, messege:'YAY! u r logged in',accessToken , user:updatedUser }) 
+            return res.status(201).json( {auth:true, messege:'YAY! u r logged in',accessToken ,
+                 user:{username:updatedUser.username,email:updatedUser.email,
+                    _id:updatedUser.id,image:updatedUser.image,role:updatedUser.role} }) 
 
 
         }catch(err){

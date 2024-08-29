@@ -6,18 +6,18 @@ const ChatContext = createContext<any>(null);
 
 const ChatProvider = ({ children }: { children: ReactNode }) => {
 
-    const [user, setUser] =useState<string>()
+    const [user, setUser] =useState<any>({})
     const [selectedChat, setSelectedChat]=useState();
     const [chats, setChats]=useState([])
 
     const navigate = useNavigate();
 
     useEffect(()=>{
-        const userInfo = JSON.parse(localStorage.getItem("userInfo")||"null");
+        const userInfo = JSON.parse(localStorage.getItem("userInfo")||"null");  
         setUser(userInfo)
-        if (!userInfo) {
-            navigate('/')
-        }
+        // if (!userInfo) {
+        //     navigate('/')
+        // }
     },[navigate])
 
     return (

@@ -10,21 +10,18 @@ interface ChatBoxProps {
   setFetchAgain: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const MyChats: React.FC<ChatBoxProps> = ({ fetchAgain}) => {
-  // const MyChats: React.FC<ChatBoxProps> = ({ fetchAgain, setFetchAgain }) => {
+  const MyChats: React.FC<ChatBoxProps> = ({ fetchAgain }) => {
+    // const MyChats: React.FC<ChatBoxProps> = ({ fetchAgain, setFetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newMessage, setNewMessage] = useState<string>("");
   const [messages, setMessages] = useState<any[]>([]);
-  const [token,setToken]=useState<string>(localStorage.getItem("token")||"null")
 
-  const { selectedChat, setChats, user } = chatState();
-  // const {  setSelectedChat, chats } = chatState();
-
-  console.log(loggedUser);
-  
+  // const { selectedChat, setChats, user, setSelectedChat, chats} = chatState();
+  const { selectedChat, setChats, user} = chatState();
+ console.log(loggedUser);
+ 
   const handleOpenModal = () => {
-    setToken(localStorage.getItem("token")||"null")
     setIsModalOpen(true);
   };
 
@@ -38,7 +35,7 @@ const MyChats: React.FC<ChatBoxProps> = ({ fetchAgain}) => {
       const config = {
         baseURL:"http://localhost:3040/",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem("token")||"null"}`,
         },
       };
       const res= await axios.get(`/api/message/${selectedChat._id}`,
@@ -59,7 +56,7 @@ const MyChats: React.FC<ChatBoxProps> = ({ fetchAgain}) => {
       const config = {
         baseURL:"http://localhost:3040/",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem("token")||"null"}`,
         },
       };
       const res = await axios.get('/api/chat', config);
@@ -79,7 +76,7 @@ const MyChats: React.FC<ChatBoxProps> = ({ fetchAgain}) => {
         baseURL:"http://localhost:3040/",
             headers: {
               "Content-type": "application/json",
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${localStorage.getItem("token")||"null"}`,
             },
           };
           setNewMessage("");

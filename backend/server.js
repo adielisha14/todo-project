@@ -8,7 +8,29 @@ const taskRouter = require('./routes/task');
 const chatRouter = require('./routes/chatRouter');
 const messageRoutes = require('./routes/messageRoutes');
 
+
 const { chats } = require("./data/data")
+
+// const webserver = express()
+// const { WebSocketServer} = require('ws')
+// const sockserver = new WebSocketServer({ port: 8080 })
+
+
+// sockserver.on('connection', ws => {
+//     console.log('New client connected!')
+//     ws.send('connection established')
+//     ws.on('close', () => console.log('Client has disconnected!'))
+//     ws.on('message', data => {
+//     sockserver.clients.forEach(client => {
+//         console.log(`distributing message: ${data}`)
+//         client.send(`${data}`)
+//     })
+//  })
+//  ws.onerror = function () {
+//    console.log('websocket error')
+//  }
+// })
+
 
 /**חיבור ל DB */
 require('./config/db');
