@@ -120,7 +120,7 @@ export default function AddTaskCard({cancel}) {
 
             <div className="flex items-center space-x-2">
               <Switch id="isPinned" onClick={(e)=>{hendelFormData(e)}}/>
-              <DrawingPinFilledIcon/>
+              <DrawingPinFilledIcon className="text-accent"/>
               
               <Label htmlFor="isPinned">Pin to the top</Label>
             </div>

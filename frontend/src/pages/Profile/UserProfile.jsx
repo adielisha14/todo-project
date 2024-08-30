@@ -68,35 +68,37 @@ export default function UserProfile() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className='userProfile'>
-        <div className='profileGradiat'></div>
+      <div className='userProfile flex flex-col justify-center items-center bg-background text-text'>
+        <div className='profileGradiat bg-secondary/20 h-36 w-full'></div>
         <div className="profaileDown">
-          <div className="imgPro">
-            <img src={user.image? user.image: profileImg} alt="profile" />
+          <div className="imgPro flex justify-center items-center">
+            <img src={user.image? user.image: profileImg} alt="profile" className='h-56 w-56 rounded-lg shadow-md p-4'/>
             {isEditing && (
               <>
-                <input 
+                <input
+                  className='w-full h-full py-1 px-2 border border-secondary outline-none rounded-lg bg-primary/25 cursor-pointer focus:border-accent/90 focus:bg-primary40' 
                   type="file" 
                   accept="image/*" 
                   onChange={handleImageChange} 
                   style={{ display: 'none' }} 
                   id="upload-button"
                 />
-                <button type="button" onClick={handleImageUploadClick}>
+                <button type="button" onClick={handleImageUploadClick} className='flex justify-center items-center m-1 rounded-md bg-primary/90 hover:bg-primary'>
                   <Upload/>
                 </button>
               </>
             )}
           </div>
-          <h1 className='profTital'>My Profile:</h1>
-          <div className="editBtn">
+          <h1 className='profTital font-extrabold text-5xl mt-14 text-center text-text'>My Profile:</h1>
+          <div className="editBtn w-fit h-fit flex mt-5 rounded-md -mb-4 ml-12 bg-primary/50 hover:bg-primary/70">
             <button type="button" onClick={handleEditClick}><UserPenIcon className='h-10 w-10' /></button>
           </div>
-          <div className='profileDetails'>
-            <div className='divData'>
-              <h2>User Name:</h2>
+          <div className='profileDetails h-full w-full px-10 pt-5 pb-8'>
+            <div className='divData bg-secondary/20 block rounded-md py-5 px-10 m-3 shadow-sm'>
+              <h2 className='text-2xl font-bold mb-1 text-accent/95'>User Name:</h2>
               {isEditing ? (
-                <input 
+                <input
+                  className='w-full py-1 px-2 border border-secondary outline-none rounded-lg bg-primary/25 cursor-pointer focus:border-accent/90 focus:bg-primary40' 
                   type="text" 
                   value={user.username} 
                   onChange={(e) => setUser({...user,username:e.target.value})} 
@@ -105,10 +107,11 @@ export default function UserProfile() {
                 <p>{user.username}</p>
               )}
             </div>
-            <div className='divData'>
-              <h2>Email:</h2>
+            <div className='divData bg-secondary/20 block rounded-md py-5 px-10 m-3 shadow-sm'>
+              <h2 className='text-2xl font-bold mb-1 text-accent/95'>Email:</h2>
               {isEditing ? (
-                <input 
+                <input
+                  className='w-full py-1 px-2 border border-secondary outline-none rounded-lg bg-primary/25 cursor-pointer focus:border-accent/90 focus:bg-primary40' 
                   type="email" 
                   value={user.email} 
                   onChange={(e) => setUser({...user,email:e.target.value})} 
@@ -117,15 +120,16 @@ export default function UserProfile() {
                 <p>{user.email}</p>
               )}
             </div>
-            <div className='divData'>
-              <h2>role:</h2>
+            <div className='divData bg-secondary/20 block rounded-md py-5 px-10 m-3 shadow-sm'>
+              <h2 className='text-2xl font-bold mb-1 text-accent/95'>role:</h2>
               <p> {user.role}</p>
             </div>
               {/* 
-            <div className='divData'>
+            <div className='divData bg-secondary/20'>
               <h2>Role:</h2>
-              {isEditing ? (
-                <input 
+ text-accent/95              {isEditing ? (
+                <input
+                  className='border border-secondary outline-none rounded-lg bg-primary/25 cursor-pointer focus:border-accent/90 focus:bg-primary40' 
                   type="text" 
                   value={role} 
                   onChange={(e) => setRole(e.target.value)} 
@@ -135,8 +139,8 @@ export default function UserProfile() {
               )}
             </div> 
                 */}
+          {isEditing && <button type="submit" className='bg-accent/10 text-text/90 border-accent hover:bg-accent/50 hover:text-background py-2 w-1/3 rounded-xl mt-5 text-center justify-center items-center text-sm hover:scale-105 duration-300' onClick={saveChanges}>Update</button>}
           </div>
-          {isEditing && <button type="submit" onClick={saveChanges}>Update</button>}
         </div>
       </div>
     </form>

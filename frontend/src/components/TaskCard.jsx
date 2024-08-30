@@ -77,9 +77,9 @@ export default function TaskCard({task}) {
 
   return (
     
-    <Card className={`w-[350px] ml-5 relative  ${taskComplete?"line-through":""}`}>
+    <Card className={`w-[22%] mx-auto relative  ${taskComplete?"line-through":""}`}>
       {edit&&<EditCard cancel={setEdit} task={task} />}
-      <div className="flex justify-between items-center">
+      <div className="flex justify-center items-center">
         <CardDescription className='m-2'>{showUpdated.slice(0,showUpdated.indexOf("GMT")-4)}</CardDescription>      
         <CardDescription>{category}</CardDescription>
         <div></div>
@@ -87,9 +87,9 @@ export default function TaskCard({task}) {
       </div>
         {pin?
       <DrawingPinFilledIcon onClick={()=>{getData("isPinned")}} 
-      className="mr-2 h-10 w-10 absolute right-0 top-0"/>:
+      className="mr-2 h-10 text-accent w-10 absolute right-0 top-0"/>:
         <DrawingPinIcon  onClick={()=>{getData("isPinned")}} 
-       className="mr-2 h-10 w-10 absolute right-0 top-0"/>}
+       className="mr-2 h-10 text-accent w-10 absolute right-0 top-0"/>}
 
       <CardHeader>
         <CardTitle>{title}</CardTitle>

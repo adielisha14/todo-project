@@ -1,5 +1,5 @@
 import React from 'react'
-import './UserDetails.css'
+// import './UserDetails.css'
 import { useState,useEffect } from 'react'
 import userImage from './image/user-img.png'
 import {userList,deleteUser} from '../../services/user'
@@ -41,19 +41,19 @@ function UsersDetails() {
                                
                              
   return (
-  <div className='userConteiner'>
-      <h2>Meet our portal user's:</h2>
+  <div className='userConteiner flex flex-col items-center justify-center rounded-md w-full mb-8'>
+      <h2 className='flex text-text justify-center text-4xl font-extrabold mb-5'>Meet our portal user's:</h2>
       <div className='list'>
         {users.length>0?users.map((use,inx)=>(
-        <ul className='userList' key={inx}>
+        <ul className='userList rounded-md bg-accent/20 px-5 py-8 my-5 text-2xl font-bold text-primary' key={inx}>
           <div className='flex items-center justify-between'>
             {use.username}
-            <TrashIcon onClick={()=>{userDelete(use._id)}} className='delete h-6 w-6'/> 
+            <TrashIcon onClick={()=>{userDelete(use._id)}} className='delete text-red-600 h-6 w-6'/> 
           </div>
-          <img src={use.image?use.image:userImage} className='userImage'></img>
-          <li >Name: {use.username}</li>
-          <li>Email: {use.email}</li>
-          <li>role: {use.role}</li>
+          <img src={use.image?use.image:userImage} className='userImage h-32 w-[80%] my-1 mx-auto rounded-xl object-cover'></img>
+          <li className='text-lg text-text/80' >Name: {use.username}</li>
+          <li className='text-lg text-text/80'>Email: {use.email}</li>
+          <li className='text-lg text-text/80'>role: {use.role}</li>
         </ul> )):<h2>no users</h2>  }
  
       </div>      

@@ -39,43 +39,43 @@ export default function Sidebar({setCount,setTasks,setNoTasks}) {
   return (
     <div >
     
-    <div className='sidebar-container'>
+    <div className='sidebar-container w-[15vw] h-[89vh] m-0.5 rounded-lg border-4 border-primary p-5 flex justify-center'>
 
-    <ul className='sidebar-list'>
+    <ul className='sidebar-list list-none p-0 m-0 w-full'>
         <li>
-            <div onClick={()=>{setCount(true)}} className='addTodo'>
+            <div onClick={()=>{setCount(true)}} className='addTodo text-text/90 text-base p-4 flex justify-center items-center h-12 w-full rounded-sm bg-accent/40 shadow-sm cursor-pointer'>
                 Add a Todo
-                <i className="fa-solid fa-circle-plus addIcon" ></i>
+                <i className="fa-solid fa-circle-plus addIcon text-2xl p-3"></i>
             </div>
         </li>
-        <li>
-        <label  className=" block text-2xl font-medium text-43ADAD-800 mb-2 cateLabel" >Filters:</label>
+        <li className='mb-5'>
+        <label  className=" block text-2xl font-medium text-43ADAD-800 mb-2 cateLabel text-primary" >Filters:</label>
 
-        <div className="search-containerSide">
-            <input type="text" id='title' className='searchBarSide' placeholder="Search..." onChange={(e)=>{hendelFilter(e)}}/>
-            <i className="fas fa-search search-icon searchIconSide"></i>
+        <div className="search-containerSide p-4 bg-accent/40 shadow-sm rounded-sm flex text-center h-12 w-full">
+            <input type="text" id='title' className='searchBarSide focus:outline-none bg-transparent w-full' placeholder="Search..." onChange={(e)=>{hendelFilter(e)}}/>
+            <i className="fas fa-search search-icon searchIconSide text-2xl right-0 mr-5 text-primary"></i>
         </div>
         </li>
         {/* <li><div className='cursor-pointer mt-1 block w-full py-2 px-3 border bg-white rounded-md shadow-sm focus:outline-none  sm:text-sm' >All todos</div></li> */}
-       <li><button className='filtersbtn' onClick={()=>setShowFilters(perv=>!perv)}>Additional filters <MixerHorizontalIcon className="ml-2"/></button></li>
+       <li className='mb-5'><button className='filtersbtn text-text/80' onClick={()=>setShowFilters(perv=>!perv)}>Additional filters <MixerHorizontalIcon className="ml-2"/></button></li>
         {showFilters&& <>
           
-                  <li><div>
+                  <li className='mb-5'><div>
           
-                  <label htmlFor="categories" className=" block text-2xl font-medium text-43ADAD-800 mb-2 cateLabel" >Categories:</label>
-                  <div className="search-containerSide">
+                  <label htmlFor="categories" className=" block text-2xl font-medium text-43ADAD-800 mb-2 cateLabel text-primary" >Categories:</label>
+                  <div className="search-containerSide p-4 bg-accent/40 shadow-sm rounded-sm flex text-center h-12 w-full">
           
-                    <input type="text" id='categories' className='searchBarSide' placeholder="Search..." onChange={(e)=>{hendelFilter(e)}}/>
+                    <input type="text" id='categories' className='searchBarSide focus:outline-none bg-transparent w-full' placeholder="Search..." onChange={(e)=>{hendelFilter(e)}}/>
                   </div>
                   </div></li>
           
-                  <li> <div>
-        <label  className=" block text-2xl font-medium text-43ADAD-800 mb-2 cateLabel" > Order by:</label>
-        <li><div className='cursor-pointer mt-1 block w-full py-2 px-3 border bg-white rounded-md shadow-sm focus:outline-none  sm:text-sm ' 
+                  <li className='mb-5'> <div>
+        <label  className=" block text-2xl font-medium text-43ADAD-800 mb-3 cateLabel text-primary" > Order by:</label>
+        <li className='mb-5'><div className='cursor-pointer mt-1 block w-full py-2 px-3 text-text/80 bg-accent/40 hover:bg-accent/30 rounded-md shadow-sm focus:outline-none  sm:text-sm ' 
         onClick={()=>{setSort({...sort,sortBy:"date"})}}>To be done by...</div></li>
-        <li><div className='cursor-pointer mt-1 block w-full py-2 px-3 border bg-white rounded-md shadow-sm focus:outline-none  sm:text-sm ' 
+        <li className='mb-5'><div className='cursor-pointer mt-1 block w-full py-2 px-3 text-text/80 bg-accent/40 hover:bg-accent/30 rounded-md shadow-sm focus:outline-none  sm:text-sm ' 
         onClick={()=>{setSort({...sort,sortBy:"update"})}}>last update</div></li>        
-        <li><div className='cursor-pointer mt-1 block w-full py-2 px-3 border bg-white rounded-md shadow-sm focus:outline-none  sm:text-sm ' 
+        <li className='mb-5'><div className='cursor-pointer mt-1 block w-full py-2 px-3 text-text/80 bg-accent/40 hover:bg-accent/30 rounded-md shadow-sm focus:outline-none  sm:text-sm ' 
         onClick={()=>{setSort({...sort,sortBy:"title"})}}>A B C...</div></li>
         <div className="flex items-center space-x-2 ml-2">
                 <input type="radio" id="new" name="sort" value="1" onClick={()=>{setSort({...sort,sort:1})}}/>
@@ -85,7 +85,7 @@ export default function Sidebar({setCount,setTasks,setNoTasks}) {
             </div><br/>
 
             <div className="flex items-center space-x-2 ml-2">
-                <input  type="radio" id="old" name="sort" value="-1" onClick={()=>{setSort({...sort,sort:-1})}}/>
+                <input className='' type="radio" id="old" name="sort" value="-1" onClick={()=>{setSort({...sort,sort:-1})}}/>
                 <ThickArrowDownIcon htmlFor="old"/> 
                 <Label htmlFor="old">Descending order</Label> 
             </div>

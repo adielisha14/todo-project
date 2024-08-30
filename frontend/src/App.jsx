@@ -21,6 +21,10 @@ import { useToast } from "@/components/ui/use-toast"
 import UserProfile from './pages/Profile/UserProfile';
 
 
+// import { AuthProvider } from './contexts/Auth';
+import SwitchTheme from './components/SwitchTheme';
+
+
 import {getTasks,taskListByConditions} from './services/task'
 import {whatRole} from './services/user'
 import {logout} from './services/auth'
@@ -96,7 +100,13 @@ export default function App() {
   },[renderTask])
 
   return (
+        
+
+
+
+
     <div className="static">
+      <SwitchTheme />
       {showAddTodo&&<AddTaskCard cancel={setCount}/>}
       <Navbar setRenderTask={setRenderTask}/>
       <button onClick={logOut} > logout</button>
@@ -125,7 +135,7 @@ export default function App() {
         <Route   path={`/login`} element={role==="gest"?<Login logIn={logIn}/>:<Home/>}/>
         <Route   path={`/Register`} element={role==="user"?<Home/>:<Register login={logIn}/>}/>
         <Route   path={`*`} element={<Home/>}/>
-        <Route   path={`/profile`} element={role==="user"?<UserProfile/>:<Register login={logIn}/>}/>
+        <Route   path={`/profile`} element={role==="gest"?<Register login={logIn}/>:<UserProfile/>}/>
         <Route path="chat/*" element={     <Suspense fallback={<h1>noooo......</h1>}><Chat/></Suspense>} />
 
 
