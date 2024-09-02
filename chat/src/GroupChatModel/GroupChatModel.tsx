@@ -86,7 +86,7 @@ const GroupChatModel: React.FC<GroupChatModelProps> = ({ isOpen, onClose }) => {
         <form onSubmit={handleSubmit}>
           <div>
             <label style={{color:"black"}}>Group Name:</label>
-            <input
+            <input style={{color:"black"}}
               type="text"
               value={groupChatName}
               onChange={(e) => setGroupChatName(e.target.value)}
@@ -95,7 +95,7 @@ const GroupChatModel: React.FC<GroupChatModelProps> = ({ isOpen, onClose }) => {
           </div>
           <div>
             <label style={{color:"black"}}>Search Users:</label>
-            <input
+            <input style={{color:"black"}}
               type="text"
               onChange={(e) => {setSearchtxt(e.target.value)
                                 handleSearch(e.target.value)}}
@@ -119,8 +119,11 @@ const GroupChatModel: React.FC<GroupChatModelProps> = ({ isOpen, onClose }) => {
             ))}
 
           </div>
-          <button type="submit">Submit</button>
-          <button type="button" onClick={onClose}>Close</button>
+          <div style={{display: "flex", justifyContent: "space-between"}}>
+
+            <button  style={{ color:"black"}} type="button" onClick={onClose}>Close</button>
+            <button style={{color:"black"}} type="submit">Submit</button>
+          </div>
         </form>
       </div>
     </div>

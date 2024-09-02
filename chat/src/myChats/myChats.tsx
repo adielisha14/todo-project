@@ -6,7 +6,6 @@ import SingleChat from '../SingleChat/SingleChat';
 import { getSender } from '../config/chatLogics';
 import { io, Socket } from "socket.io-client";
 
-const socket: Socket<any> = io("http://localhost:3040");
 
 // const socket = io.connect()
 
@@ -24,10 +23,12 @@ interface ChatBoxProps {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newMessage, setNewMessage] = useState<string>("");
   const [messages, setMessages] = useState<any[]>([]);
+  const socket: Socket<any> = io("http://localhost:3040");
+ 
 
   // const { selectedChat, setChats, user, setSelectedChat, chats} = chatState();
   const { selectedChat, setChats, user} = chatState();
-//  console.log(loggedUser);
+
  
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -38,12 +39,9 @@ interface ChatBoxProps {
   };
 
   const fetchMessages = async ()=>{
-    
-    console.log("fetchMessages");
     if (!selectedChat) {return}
 
     try {
-      console.log("test");
       
       const config = {
         baseURL:"http://localhost:3040/",
@@ -124,13 +122,14 @@ interface ChatBoxProps {
   }, [fetchAgain]);
   
   useEffect(()=>{
-    socket.on("receive_message",()=>{
-      console.log("receive_message");
-      console.log(selectedChat);
-      
-      fetchMessages();
     
-  })},[socket])
+    socket.on("receive_message",()=>{
+    
+      fetchMessages();
+      
+    })
+
+  },[socket])
 
   return (
     <div
