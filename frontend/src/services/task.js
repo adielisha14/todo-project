@@ -1,11 +1,17 @@
 import axios from '../utils/axios';
 
+function renewToken(token) {
+    if (token){
+        localStorage.setItem('token', token)
+
+    }
+}
+
 const getTasks = async () => {
     try{
         const response = await axios.get(`api/tasks/getall`);
         console.log(response);
-        // localStorage.setItem('token', response.token)
-        
+        renewToken(response.data.token)
         return response;
 
     }catch(err){
@@ -92,12 +98,4 @@ const taskListByConditions= async(id,data)=>{
     }
 }
 
-// const whatRole= async(id)=>{
-//     try {
-//         const role=await axios.get(`/api/tasks/role/${id}`)
-//         return role
-//     } catch (error) {
-        
-//     }
-// }
 export  { getTasks, getTaskById, createTask, editTask, deleteTask ,complete,unPin,taskListByConditions};

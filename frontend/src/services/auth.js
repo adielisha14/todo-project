@@ -4,11 +4,13 @@ import {whatRole} from './user'
 const login = async (credentials) => {
     try {
         const response = await axios.post('/api/auth/login', credentials);
-        const { accessToken } = response.data;
+        const { user,accessToken } = response.data;
+
         // localStorage.setItem('user', JSON.stringify(user));
         localStorage.setItem('token', accessToken);
         let userRole=  await whatRole(accessToken)
         localStorage.setItem('role', userRole.data);
+        localStorage.setItem("userInfo", JSON.stringify(user))
         let res= {auth:true ,role:userRole,token:accessToken}
         return res;  
 

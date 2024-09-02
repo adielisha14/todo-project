@@ -6,7 +6,6 @@ const {uppdatePassword}= require('./user')
 const {hashP}= require('../middleware/encrypt')
 
 
-
 function getPaylode(token) {
     const payload= jwt.verify(token,process.env.JWT_ACCESS_SECRET,(err,user)=>{
         if(err){
@@ -55,8 +54,10 @@ const authController={
             await User.findByIdAndUpdate(user.id, {accessToken},{new:true})
             
 
-            return res.status(201).json( {auth:true, messege:'YAY! u r logged in',accessToken 
-            }) 
+            return res.status(201).json( {auth:true, messege:'YAY! u r logged in',accessToken ,
+                user:{username:updatedUser.username,email:updatedUser.email,
+                   _id:updatedUser.id,image:updatedUser.image,role:updatedUser.role} }) 
+
 
 
         }catch(err){
@@ -70,7 +71,6 @@ const authController={
 
     ForgotPassword: async(req,res)=>{
         let email=req.body.email
-        console.log(email + "\n");
         
         try{
 

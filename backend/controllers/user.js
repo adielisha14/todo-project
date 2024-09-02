@@ -1,7 +1,6 @@
 const User = require('../models/User')
-const {getPaylode}= require ('./auth')
+const {getPaylode,generatAccessToken}= require ('./auth')
 const {hashP}= require('../middleware/encrypt')
-
 
 const userController = {
     
@@ -33,7 +32,10 @@ const userController = {
     editUser:async (req,res)=>{
         try{
             const editUser= await User.findByIdAndUpdate(req.params.id, req.body,{new:true})
-            res.status(201).json(editUser)
+            const newUser={username:editUser.username,email:editUser.email,
+                _id:editUser.id,image:editUser.image,role:editUser.role}
+            let newToken= generatAccessToken(newUser)
+            res.status(201).json({token:newToken,user:newUser})
 
         }catch(err){
             console.error("There is an error:",err)
@@ -91,15 +93,27 @@ const userController = {
 
         }
         let token = req.headers.authorization.split(" ")[1] 
-        console.log(token);
-                  
+       
         const user=getPaylode(token)
 
         if (user.status){
+
             res.status(201).json(user)             
         }else{
                 res.status(201).json("gest") 
         }
+    },
+    allUsers: async(req,res)=>{
+        const keyword = req.query.search ? {
+            $or: [
+                {username: { $regex: req.query.search, $options:'i' }},
+                {email: { $regex: req.query.search, $options:'i'}},
+            ]
+        }:{};
+        console.log('Received request at /search with query:', req.query);
+
+        const users = await User.find(keyword).find({_id:{$ne:req.user._id}})
+        res.send(users)
     }
 
 

@@ -22,8 +22,6 @@ export default function Forgot(){
         }
         
     }
-    // functionality missing - that why has comments 
-
     return (
 
         <div className="max-h-screen">
